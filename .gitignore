@@ -1,4 +1,6 @@
 .vscode
+sdkconfig
+sdkconfig.ci
 
 # Prerequisites
 *.d
