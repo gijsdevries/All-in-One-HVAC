@@ -2,7 +2,7 @@ import serial
 import time
 
 # Configuratie van de seriële poort
-port_name = '/dev/ttyACM0' 
+port_name = '/dev/ttyUSB0' 
 baud_rate = 115200
 
 try:
