@@ -1,3 +1,5 @@
+pythonFiles/venv
+
 .vscode
 sdkconfig
 sdkconfig.old
