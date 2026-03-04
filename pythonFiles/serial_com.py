@@ -8,24 +8,22 @@ baud_rate = 115200
 try:
     # Open de poort met een timeout van 1 seconde
     with serial.Serial(port_name, baud_rate, timeout=1) as ser:
-        print(f"Verbonden met {ser.name}")
-        
-        # Geef de hardware even tijd om te initialiseren (vooral bij Arduino)
-        time.sleep(2)
+        while 1:
+            ser.write(b"M0 oda_fan D0\r")
+            print("send command: M0 oda_fan D0")
+            time.sleep(5)
 
-        # 1. Data VERZENDEN
-        # De data moet als bytes (b'...') verzonden worden
-        ser.write(b"HELLO\r")
-        print("Commando verzonden.")
+            ser.write(b"M0 oda_fan D50\r")
+            print("send command: M0 oda_fan D50")
+            time.sleep(5)
 
-        # 2. Data LEZEN
-        # Wacht tot er data in de buffer staat
-        if ser.in_waiting > 0:
-            # Lees een volledige regel tot de newline (\n)
-            response = ser.readline().decode('utf-8').strip()
-            print(f"Antwoord ontvangen: {response}")
-        else:
-            print("Geen antwoord ontvangen binnen de timeout.")
+            ser.write(b"M0 oda_fan D100\r")
+            print("send command: M0 oda_fan D100")
+            time.sleep(5)
+
+            ser.write(b"M0 oda_fan D50\r")
+            print("send command: M0 oda_fan D50")
+            time.sleep(5)
 
 except serial.SerialException as e:
     print(f"Fout bij openen poort: {e}")
