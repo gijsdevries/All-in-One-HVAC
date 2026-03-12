@@ -3,9 +3,13 @@ import subprocess
 import serial
 import time
 import subprocess
+import sys
 
-file_path = 'test.txt'
-#file_path = '/home/hvacpi/Documents/sensoren_klimaatkamer/pythonFiles/test.txt'
+if len(sys.argv) < 2:
+    print(f"Usage: python3 {sys.argv[0]} <serial_port>")
+    sys.exit(1)
+
+file_path = sys.argv[1]
 
 with open(file_path, 'r') as file:
     lines = file.readlines()
