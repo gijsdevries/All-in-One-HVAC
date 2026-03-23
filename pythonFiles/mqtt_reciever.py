@@ -43,16 +43,19 @@ def on_connect(eta_client, userdata, flags, rc):
     eta_client.subscribe(topics)
 
 def on_message(eta_client, userdata, msg):
-    msg.payload = int(msg.payload)
     print(f"DEBUG: topic={msg.topic}, payload={msg.payload}")
 
     if msg.topic == ETA_TOPIC:
+        msg.payload = int(msg.payload)
         ser_octo.write(f"M0 eta_fan D{msg.payload}\r".encode('utf-8'))
     elif msg.topic == ODA_TOPIC:
+        msg.payload = int(msg.payload)
         ser_octo.write(f"M0 oda_fan D{msg.payload}\r".encode('utf-8'))
     elif msg.topic == TEC_TOPIC:
+        msg.payload = bool(msg.payload)
         ser_tec.write(f"set 2 {msg.payload}\r".encode('utf-8'))
     elif msg.topic == PELTIER_TOPIC:
+        msg.payload = float(msg.payload)
         ser_tec.write(f"set 1 {msg.payload}\r".encode('utf-8'))
     elif msg.topic == ABORT_TOPIC:
         quit()
