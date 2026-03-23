@@ -5,11 +5,11 @@ import paho.mqtt.client as mqtt
 
 # --- SETTINGS ---
 MQTT_HOST = "192.168.1.116" # IP of your HA/Mosquitto Broker
-MQTT_TOPIC = "hoom/commands/test"
+ETA_MQTT_TOPIC = "hoom/control/eta"
+ODA_MQTT_TOPIC = "hoom/control/oda"
 SERIAL_PORT = "/dev/ttyACM0" 
 BAUD_RATE = 115200 
 # ----------------
-
 
 # Initialize Serial
 try:
@@ -19,16 +19,18 @@ except Exception as e:
     print(f"Serial Error: {e}")
     exit()
 
-def on_connect(client, userdata, flags, rc):
-   print(f"Connected to MQTT with result code {rc}")
-    client.subscribe(MQTT_TOPIC)
-
-def on_message(client, userdata, msg):
-    payload = msg.payload.decode("utf-8")
-    print(f"Received message on topic '{msg.topic}': {payload}")
+def on_connect(eta_client, userdata, flags, rc):
+    print(f"Connected to MQTT with result code {rc}")
     
-    # Send to USB
-    ser.write(f"{payload}\n".encode('utf-8'))
+    topics = [
+        ("hoom/control/oda", 0),
+        ("hoom/control/eta", 0),
+    ]
+    eta_client.subscribe(topics)
+
+
+def on_message(eta_client, userdata, msg):
+    print(f"DEBUG: topic={msg.topic}, payload={msg.payload}")
 
 client = mqtt.Client()
 client.username_pw_set("pi_mqtt", "M0squ!tt0")
