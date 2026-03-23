@@ -1,3 +1,5 @@
+#AI code ;)
+
 import serial
 import paho.mqtt.client as mqtt
 
@@ -18,7 +20,7 @@ except Exception as e:
     exit()
 
 def on_connect(client, userdata, flags, rc):
-    print(f"Connected to MQTT with result code {rc}")
+   print(f"Connected to MQTT with result code {rc}")
     client.subscribe(MQTT_TOPIC)
 
 def on_message(client, userdata, msg):
