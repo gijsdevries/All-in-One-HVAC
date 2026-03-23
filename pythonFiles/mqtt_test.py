@@ -23,14 +23,20 @@ def on_connect(eta_client, userdata, flags, rc):
     print(f"Connected to MQTT with result code {rc}")
     
     topics = [
-        ("hoom/control/oda", 0),
-        ("hoom/control/eta", 0),
+        (ODA_MQTT_TOPIC, 0),
+        (ETA_MQTT_TOPIC, 0),
     ]
     eta_client.subscribe(topics)
 
 
 def on_message(eta_client, userdata, msg):
+    msg.payload = int(msg.payload)
     print(f"DEBUG: topic={msg.topic}, payload={msg.payload}")
+
+    if msg.topic == ETA_MQTT_TOPIC:
+        ser.write(f"M0 eta_fan D{msg.payload}\r".encode('utf-8'))
+    elif msg.topic == ODA_MQTT_TOPIC:
+        ser.write(f"M0 oda_fan D{msg.payload}\r".encode('utf-8'))
 
 client = mqtt.Client()
 client.username_pw_set("pi_mqtt", "M0squ!tt0")
