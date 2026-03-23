@@ -58,6 +58,7 @@ def on_message(eta_client, userdata, msg):
         msg.payload = float(msg.payload)
         ser_tec.write(f"set 1 {msg.payload}\r".encode('utf-8'))
     elif msg.topic == ABORT_TOPIC:
+        #TODO stop all commands??
         quit()
 
 client = mqtt.Client()
