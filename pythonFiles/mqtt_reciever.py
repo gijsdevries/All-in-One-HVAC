@@ -9,8 +9,12 @@ PELTIER_TOPIC = "hoom/control/peltier"
 ABORT_TOPIC = "hoom/control/abort"
 
 #COM_PORTS
+
 SERIAL_PORT_OCTO = "/dev/ttyACM0" 
 SERIAL_PORT_TEC = "/dev/ttyUSB0"
+
+#SERIAL_PORT_OCTO = "/dev/ttyS4" 
+#SERIAL_PORT_TEC = "/dev/ttyS4"
 BAUD_RATE = 115200 
 
 #SETTINGS
@@ -48,18 +52,31 @@ def on_message(eta_client, userdata, msg):
     if msg.topic == ETA_TOPIC:
         msg.payload = int(msg.payload)
         ser_octo.write(f"M0 eta_fan D{msg.payload}\r".encode('utf-8'))
+
     elif msg.topic == ODA_TOPIC:
         msg.payload = int(msg.payload)
         ser_octo.write(f"M0 oda_fan D{msg.payload}\r".encode('utf-8'))
+
     elif msg.topic == TEC_TOPIC:
-        msg.payload = bool(msg.payload)
-        ser_tec.write(f"set 2 {msg.payload}\r".encode('utf-8'))
+        msg.payload = msg.payload.decode('utf-8')
+
+        if msg.payload == 'False':
+            msg = 0
+        else:
+            msg = 1
+
+        ser_tec.write(f"set 2 {msg}\r".encode('utf-8'))
+
     elif msg.topic == PELTIER_TOPIC:
         msg.payload = float(msg.payload)
         ser_tec.write(f"set 1 {msg.payload}\r".encode('utf-8'))
+
     elif msg.topic == ABORT_TOPIC:
-        #TODO stop all commands??
-        quit()
+
+        msg = msg.payload.decode('utf-8')
+
+        if msg == "ABORT":
+            quit()
 
 client = mqtt.Client()
 client.username_pw_set(username, password)
