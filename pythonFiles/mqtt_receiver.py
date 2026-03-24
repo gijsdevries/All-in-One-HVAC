@@ -10,7 +10,6 @@ PELTIER_TOPIC = "hoom/control/peltier"
 ABORT_TOPIC = "hoom/control/abort"
 
 #COM_PORTS
-
 dirPathGijs = "/home/gijs"
 dirPathPi = "home/hvacpi"
     
@@ -21,8 +20,6 @@ elif os.path.isdir(dirPathPi):
     SERIAL_PORT_OCTO = "/dev/ttyACM0" 
     SERIAL_PORT_TEC = "/dev/ttyUSB0"
 
-#SERIAL_PORT_OCTO = "/dev/ttyS4" 
-#SERIAL_PORT_TEC = "/dev/ttyS4"
 BAUD_RATE = 115200 
 
 #SETTINGS
@@ -53,37 +50,38 @@ def on_connect(eta_client, userdata, flags, rc):
     eta_client.subscribe(topics)
 
 def on_message(eta_client, userdata, msg):
-    print(f"DEBUG: topic={msg.topic}, payload={msg.payload}")
 
     if msg.topic == ETA_TOPIC:
         msg.payload = int(msg.payload)
         serial_buffer = "M0 eta_fan D" + str(msg.payload) + "\r" 
-        print("PYTHON SCRIPT: wrote " + serial_buffer)
         ser_octo.write(serial_buffer.encode('utf-8'))
+        print("PYTHON SCRIPT: wrote " + serial_buffer)
 
     elif msg.topic == ODA_TOPIC:
         msg.payload = int(msg.payload)
-        ser_octo.write(f"M0 oda_fan D{msg.payload}\r".encode('utf-8'))
+        serial_buffer = "M0 oda_fan D" + str(msg.payload) + "\r" 
+        ser_octo.write(serial_buffer.encode('utf-8'))
+        print("PYTHON SCRIPT: wrote " + serial_buffer)
 
     elif msg.topic == TEC_TOPIC:
         msg.payload = msg.payload.decode('utf-8')
 
         if msg.payload == 'False':
-            msg = 0
+            serial_buffer = "set 2 0\r" 
         else:
-            msg = 1
+            serial_buffer = "set 2 1\r" 
 
-        ser_tec.write(f"set 2 {msg}\r".encode('utf-8'))
+        ser_tec.write(serial_buffer.encode('utf-8'))
+        print("PYTHON SCRIPT: wrote " + serial_buffer)
 
     elif msg.topic == PELTIER_TOPIC:
         msg.payload = float(msg.payload)
-        ser_tec.write(f"set 1 {msg.payload}\r".encode('utf-8'))
+        serial_buffer = "set 1 " + str(msg.payload) + "\r" 
+        ser_tec.write(serial_buffer.encode('utf-8'))
+        print("PYTHON SCRIPT: wrote " + serial_buffer)
 
     elif msg.topic == ABORT_TOPIC:
-
-        msg = msg.payload.decode('utf-8')
-
-        if msg == "ABORT":
+        if msg.payload.decode('utf-8') == "ABORT":
             quit()
 
 client = mqtt.Client()
