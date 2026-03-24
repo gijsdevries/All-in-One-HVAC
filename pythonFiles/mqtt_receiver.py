@@ -53,13 +53,13 @@ def on_message(eta_client, userdata, msg):
 
     if msg.topic == ETA_TOPIC:
         msg.payload = int(msg.payload)
-        serial_buffer = "M0 eta_fan D" + str(msg.payload) + "\r" 
+        serial_buffer = f"M0 eta_fan D{msg.payload}\r" 
         ser_octo.write(serial_buffer.encode('utf-8'))
         print("PYTHON SCRIPT: wrote " + serial_buffer)
 
     elif msg.topic == ODA_TOPIC:
         msg.payload = int(msg.payload)
-        serial_buffer = "M0 oda_fan D" + str(msg.payload) + "\r" 
+        serial_buffer = f"M0 oda_fan D{msg.payload}\r" 
         ser_octo.write(serial_buffer.encode('utf-8'))
         print("PYTHON SCRIPT: wrote " + serial_buffer)
 
@@ -75,8 +75,8 @@ def on_message(eta_client, userdata, msg):
         print("PYTHON SCRIPT: wrote " + serial_buffer)
 
     elif msg.topic == PELTIER_TOPIC:
-        msg.payload = float(msg.payload)
-        serial_buffer = "set 1 " + str(msg.payload) + "\r" 
+        msg.payload = int(msg.payload)
+        serial_buffer = f"set 1 {msg.payload}\r" 
         ser_tec.write(serial_buffer.encode('utf-8'))
         print("PYTHON SCRIPT: wrote " + serial_buffer)
 
