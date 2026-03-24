@@ -1,5 +1,6 @@
 import serial
 import paho.mqtt.client as mqtt
+import os
 
 #TOPICS
 ETA_TOPIC = "hoom/control/eta"
@@ -10,8 +11,15 @@ ABORT_TOPIC = "hoom/control/abort"
 
 #COM_PORTS
 
-SERIAL_PORT_OCTO = "/dev/ttyACM0" 
-SERIAL_PORT_TEC = "/dev/ttyUSB0"
+dirPathGijs = "/home/gijs"
+dirPathPi = "home/hvacpi"
+    
+if os.path.isdir(dirPathGijs):
+    SERIAL_PORT_OCTO = "/dev/ttyS4" 
+    SERIAL_PORT_TEC = "/dev/ttyS4"
+elif os.path.isdir(dirPathPi):
+    SERIAL_PORT_OCTO = "/dev/ttyACM0" 
+    SERIAL_PORT_TEC = "/dev/ttyUSB0"
 
 #SERIAL_PORT_OCTO = "/dev/ttyS4" 
 #SERIAL_PORT_TEC = "/dev/ttyS4"
@@ -27,9 +35,7 @@ password = "M0squ!tt0"
 # Initialize Serial
 try:
     ser_octo = serial.Serial(SERIAL_PORT_OCTO, BAUD_RATE, timeout=1)
-    print(f"Connected to Serial: {SERIAL_PORT_OCTO}")
     ser_tec = serial.Serial(SERIAL_PORT_TEC, BAUD_RATE, timeout=1)
-    print(f"Connected to Serial: {SERIAL_PORT_TEC}")
 except Exception as e:
     print(f"Serial Error: {e}")
     exit()
@@ -51,7 +57,9 @@ def on_message(eta_client, userdata, msg):
 
     if msg.topic == ETA_TOPIC:
         msg.payload = int(msg.payload)
-        ser_octo.write(f"M0 eta_fan D{msg.payload}\r".encode('utf-8'))
+        serial_buffer = "M0 eta_fan D" + str(msg.payload) + "\r" 
+        print("PYTHON SCRIPT: wrote " + serial_buffer)
+        ser_octo.write(serial_buffer.encode('utf-8'))
 
     elif msg.topic == ODA_TOPIC:
         msg.payload = int(msg.payload)
