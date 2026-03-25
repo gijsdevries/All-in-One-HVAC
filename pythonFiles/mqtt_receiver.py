@@ -11,7 +11,7 @@ ABORT_TOPIC = "hoom/control/abort"
 
 #COM_PORTS
 dirPathGijs = "/home/gijs"
-dirPathPi = "home/hvacpi"
+dirPathPi = "/home/hvacpi"
     
 if os.path.isdir(dirPathGijs):
     SERIAL_PORT_OCTO = "/dev/ttyS4" 
