@@ -8,7 +8,7 @@ ETA_TOPIC = "hoom/control/eta"
 ODA_TOPIC = "hoom/control/oda"
 TEC_TOPIC = "hoom/control/tec"
 PELTIER_TOPIC = "hoom/control/peltier"
-ABORT_TOPIC = "hoom/control/abort"
+ENABLE_PI = "hoom/control/enable_pi"
 
 #COM_PORTS
 dirPathGijs = "/home/gijs"
@@ -46,7 +46,7 @@ def on_connect(eta_client, userdata, flags, rc):
         (ETA_TOPIC, 0),
         (TEC_TOPIC, 0),
         (PELTIER_TOPIC, 0),
-        (ABORT_TOPIC, 0),
+        (ENABLE_PI, 0),
     ]
     eta_client.subscribe(topics)
 
@@ -93,8 +93,9 @@ def on_message(eta_client, userdata, msg):
         line = ser_tec.readline()
         print(Fore.LIGHTGREEN_EX + "TEC : " + line.decode().strip())
 
-    elif msg.topic == ABORT_TOPIC:
-        if msg.payload.decode('utf-8') == "ABORT":
+    elif msg.topic == ENABLE_PI:
+        if msg.payload.decode('utf-8') == "False":
+            print(Back.RED + Fore.WHITE + "PI forwarder shutting down..." + Style.RESET_ALL)
             quit()
 
     print(Style.RESET_ALL)

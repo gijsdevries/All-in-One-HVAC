@@ -1,0 +1,36 @@
+import paho.mqtt.client as mqtt
+import subprocess
+
+# MQTT host
+MQTT_HOST = "192.168.1.116"
+MQTT_PORT = 1883
+
+# LOGIN
+username = "pi_mqtt"
+password = "M0squ!tt0"
+
+def on_connect(eta_client, userdata, flags, rc):
+    print(f"Connected to MQTT with result code {rc}")
+    
+    eta_client.subscribe("hoom/control/enable_pi")
+
+def on_message(client, userdata, msg):
+    payload = msg.payload.decode("utf-8")
+    print(f"Received message: {payload} on topic: {msg.topic}")
+
+    if payload == "True":
+        print("Starting the program...")
+        # Replace 'python3 myscript.py' with your actual command
+        subprocess.Popen(["python3", "/home/hvacpi/Documents/sensoren_klimaatkamer/pythonFiles/mqtt_receiver.py"])
+
+# Setup the client
+client = mqtt.Client()
+client.username_pw_set(username, password)
+client.on_connect = on_connect
+client.on_message = on_message
+
+# Connect to the broker
+client.connect(MQTT_HOST, MQTT_PORT, 60)
+
+print("Waiting for messages...")
+client.loop_forever()
