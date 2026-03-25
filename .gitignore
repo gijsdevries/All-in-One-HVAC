@@ -68,9 +68,15 @@ compile_commands.json
 # vcpkg
 vcpkg_installed/
 
-# debug information files
+# debug information file
 *.dwo
 
 # test output & cache
 Testing/
 .cache/
+
+# secrets file
+pythonFiles/secrets.py
+
+# python cache
+pythonFiles/__pycache__/

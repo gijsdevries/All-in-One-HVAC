@@ -1,13 +1,11 @@
 import paho.mqtt.client as mqtt
 import subprocess
 
+import secrets
+
 # MQTT host
 MQTT_HOST = "192.168.1.116"
 MQTT_PORT = 1883
-
-# LOGIN
-username = "pi_mqtt"
-password = "M0squ!tt0"
 
 def on_connect(eta_client, userdata, flags, rc):
     print(f"Connected to MQTT with result code {rc}")
@@ -25,7 +23,7 @@ def on_message(client, userdata, msg):
 
 # Setup the client
 client = mqtt.Client()
-client.username_pw_set(username, password)
+client.username_pw_set(secrets.USERNAME, secrets.PASSWORD)
 client.on_connect = on_connect
 client.on_message = on_message
 

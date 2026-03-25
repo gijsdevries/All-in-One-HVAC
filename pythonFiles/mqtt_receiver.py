@@ -3,6 +3,8 @@ import serial
 import paho.mqtt.client as mqtt
 import os
 
+import secrets
+
 #TOPICS
 ETA_TOPIC = "hoom/control/eta"
 ODA_TOPIC = "hoom/control/oda"
@@ -25,10 +27,6 @@ BAUD_RATE = 115200
 
 #SETTINGS
 MQTT_HOST = "192.168.1.116" # IP of your HA/Mosquitto Broker
-
-#LOGIN
-username = "pi_mqtt"
-password = "M0squ!tt0"
 
 # Initialize Serial
 try:
@@ -102,7 +100,7 @@ def on_message(eta_client, userdata, msg):
 
 
 client = mqtt.Client()
-client.username_pw_set(username, password)
+client.username_pw_set(secrets.USERNAME, secrets.PASSWORD)
 client.on_connect = on_connect
 client.on_message = on_message
 
