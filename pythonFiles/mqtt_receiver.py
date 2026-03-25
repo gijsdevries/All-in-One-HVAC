@@ -2,6 +2,8 @@ import serial
 import paho.mqtt.client as mqtt
 import os
 
+#hi from pi
+
 #TOPICS
 ETA_TOPIC = "hoom/control/eta"
 ODA_TOPIC = "hoom/control/oda"
