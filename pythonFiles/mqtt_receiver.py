@@ -1,8 +1,7 @@
+from colorama import Fore, Back, Style
 import serial
 import paho.mqtt.client as mqtt
 import os
-
-#hi from pi
 
 #TOPICS
 ETA_TOPIC = "hoom/control/eta"
@@ -57,13 +56,19 @@ def on_message(eta_client, userdata, msg):
         msg.payload = int(msg.payload)
         serial_buffer = f"M0 eta_fan D{msg.payload}\r" 
         ser_octo.write(serial_buffer.encode('utf-8'))
-        print("PYTHON SCRIPT: wrote " + serial_buffer)
+        print(Fore.BLUE + "SENT OCTO: " + serial_buffer)
+
+        line = ser_octo.readline()
+        print(Fore.CYAN + "OCTO: " + line.decode().strip())
 
     elif msg.topic == ODA_TOPIC:
         msg.payload = int(msg.payload)
         serial_buffer = f"M0 oda_fan D{msg.payload}\r" 
         ser_octo.write(serial_buffer.encode('utf-8'))
-        print("PYTHON SCRIPT: wrote " + serial_buffer)
+        print(Fore.BLUE + "SENT OCTO: " + serial_buffer)
+
+        line = ser_octo.readline()
+        print(Fore.CYAN + "OCTO: " + line.decode().strip())
 
     elif msg.topic == TEC_TOPIC:
         msg.payload = msg.payload.decode('utf-8')
@@ -74,17 +79,26 @@ def on_message(eta_client, userdata, msg):
             serial_buffer = "set 2 1\r" 
 
         ser_tec.write(serial_buffer.encode('utf-8'))
-        print("PYTHON SCRIPT: wrote " + serial_buffer)
+        print(Fore.GREEN + "SENT TEC: " + serial_buffer)
+
+        line = ser_tec.readline()
+        print(Fore.LIGHTGREEN_EX + "TEC : " + line.decode().strip())
 
     elif msg.topic == PELTIER_TOPIC:
         msg.payload = int(msg.payload)
         serial_buffer = f"set 1 {msg.payload}\r" 
         ser_tec.write(serial_buffer.encode('utf-8'))
-        print("PYTHON SCRIPT: wrote " + serial_buffer)
+        print(Fore.GREEN + "SENT TEC: " + serial_buffer)
+
+        line = ser_tec.readline()
+        print(Fore.LIGHTGREEN_EX + "TEC : " + line.decode().strip())
 
     elif msg.topic == ABORT_TOPIC:
         if msg.payload.decode('utf-8') == "ABORT":
             quit()
+
+    print(Style.RESET_ALL)
+
 
 client = mqtt.Client()
 client.username_pw_set(username, password)
