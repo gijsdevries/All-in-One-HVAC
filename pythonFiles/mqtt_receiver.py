@@ -83,7 +83,7 @@ def on_message(eta_client, userdata, msg):
         print(Fore.LIGHTGREEN_EX + "TEC : " + line.decode().strip())
 
     elif msg.topic == PELTIER_TOPIC:
-        msg.payload = int(msg.payload)
+        msg.payload = float(msg.payload)
         serial_buffer = f"set 1 {msg.payload}\r" 
         ser_tec.write(serial_buffer.encode('utf-8'))
         print(Fore.GREEN + "SENT TEC: " + serial_buffer)
