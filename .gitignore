@@ -1,4 +1,3 @@
-pythonFiles/venv
 
 .vscode
 sdkconfig
@@ -79,4 +78,11 @@ Testing/
 pythonFiles/secrets.py
 
 # python cache
+pythonFiles/venv
 pythonFiles/__pycache__/
+
+pio/.pioenvs
+pio/.piolibdeps
+pio/.clang_complete
+pio/.gcc-flags.json
+pio/.pio
