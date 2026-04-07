@@ -4,32 +4,31 @@
 #include <driver/gpio.h>
 #include "sdkconfig.h"
 #include <Arduino.h>
+//#include <MQTT.h>
+
+#include <mqtt.h>
 
 #define BLINK_GPIO (gpio_num_t)CONFIG_BLINK_GPIO
 
-void blink_task(void *pvParameter)
-{
-    gpio_pad_select_gpio(BLINK_GPIO);
-    gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
+const char ssid[] = "Energielab";
+const char pass[] = "Energie0238";
 
-    while(1)
-    {
-	/* Blink off (output low) */
-	gpio_set_level(BLINK_GPIO, 0);
-	vTaskDelay(1000 / portTICK_PERIOD_MS);
-	/* Blink on (output high) */
-	digitalWrite(BLINK_GPIO, !digitalRead(BLINK_GPIO));
-	vTaskDelay(1000 / portTICK_PERIOD_MS);
-    }
-}
+WiFiClient net;
+//MQTTClient client;
 
 void setup() {
     Serial.begin(115200);
-    xTaskCreate(&blink_task, "blink_task", configMINIMAL_STACK_SIZE, NULL, 5, NULL);
-    pinMode(BLINK_GPIO, OUTPUT);
+    WiFi.begin(ssid, pass);
 }
 
 void loop() {
-    Serial.println("Hello!");
+  Serial.print("checking wifi...");
+
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print(".");
     delay(1000);
+  }
+
+  Serial.println("\nconnected!");
+  delay(1000);
 }
