@@ -14,14 +14,14 @@ void connect_wifi(const char* ssid, const char* password, const char* topic)
 	delay(1000);
     }
 
-    Serial.println("\nconnected to wifi");
+    Serial.println("\nconnected to wifi. connecting to url now");
 
-    client.begin("public.cloud.shiftr.io", net);
+    client.begin("192.168.1.116", net);
 
-    while (!client.connect("arduino", "public", "public"))
+    while (!client.connect("sensordev", "pi_mqtt", "M0squ!tt0"))
     {
-	Serial.print(".");
-	delay(1000);
+      Serial.print(".");
+      delay(1000);
     }
 
     Serial.println("\nconnected to topic");

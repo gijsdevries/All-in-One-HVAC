@@ -8,15 +8,20 @@
 
 #include <mqtt.h>
 
+const char topic[] = "/hello";
+
 void setup() {
     const char ssid[] = "Energielab";
     const char pass[] = "Energie0238";
-    const char topic[] = "/hello";
 
     Serial.begin(115200);
     connect_wifi(ssid, pass, topic);
 }
 
 void loop() {
+    client.loop();
+
+    client.publish(topic, "world");
+    Serial.println("send string world to client");
     delay(1000);
 }
