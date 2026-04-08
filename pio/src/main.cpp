@@ -13,8 +13,7 @@ const char pass[] = "Energie0238";
 
 void setup() {
     Serial.begin(115200);
-    hello_world();
-    //connect_wifi(ssid, pass);
+    connect_wifi(ssid, pass);
 }
 
 void loop() {
