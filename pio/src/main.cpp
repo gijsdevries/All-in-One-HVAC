@@ -10,6 +10,7 @@
 
 const char topic[] = "/hello";
 
+//post data to certain topic
 void mqtt_post(void *pvParameter)
 {
     while(1)
@@ -20,6 +21,7 @@ void mqtt_post(void *pvParameter)
     }
 }
 
+//start wifi and mqtt connection and keep it alive
 void mqtt_connection(void *pvParameter)
 {
     const char ssid[] = "Energielab";
@@ -33,7 +35,7 @@ void mqtt_connection(void *pvParameter)
 
     while(1)
     {
-      client.loop();
+      client.loop(); //this function should be called frequently to keep connection with broker alive
       vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }
