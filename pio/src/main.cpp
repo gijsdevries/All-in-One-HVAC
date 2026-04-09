@@ -15,7 +15,9 @@ void setup() {
     const char pass[] = "Energie0238";
 
     Serial.begin(115200);
-    connect_wifi(ssid, pass, topic);
+    connect_wifi(ssid, pass);
+    connect_mqtt();
+    client.subscribe(topic);
 }
 
 void loop() {

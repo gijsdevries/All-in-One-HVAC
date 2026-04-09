@@ -3,7 +3,7 @@
 WiFiClient net;
 MQTTClient client;
 
-void connect_wifi(const char* ssid, const char* password, const char* topic)
+void connect_wifi(const char* ssid, const char* password)
 {
     WiFi.begin(ssid, password);
     Serial.print("checking wifi...");
@@ -15,7 +15,11 @@ void connect_wifi(const char* ssid, const char* password, const char* topic)
     }
 
     Serial.println("\nconnected to wifi. connecting to url now");
+    return;
+}
 
+void connect_mqtt()
+{
     client.begin("192.168.1.116", net);
 
     while (!client.connect("sensordev", "pi_mqtt", "M0squ!tt0"))
@@ -24,8 +28,6 @@ void connect_wifi(const char* ssid, const char* password, const char* topic)
       delay(1000);
     }
 
-    Serial.println("\nconnected to topic");
-
-    client.subscribe(topic);
+    Serial.println("\nconnected to mqtt broker");
     return;
 }

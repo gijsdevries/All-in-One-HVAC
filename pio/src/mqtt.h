@@ -4,4 +4,5 @@
 extern WiFiClient net;
 extern MQTTClient client;
 
-void connect_wifi(const char* ssid, const char* password, const char* topic);
+void connect_mqtt();
+void connect_wifi(const char* ssid, const char* password);
