@@ -5,6 +5,7 @@
 #include "sdkconfig.h"
 #include <Arduino.h>
 #include <MQTT.h>
+#include <Wire.h>
 
 #include <Wire.h>
 
@@ -35,15 +36,74 @@ void SHT40Task(void *parameter)
 #include <mqtt.h>
 
 const char topic[] = "/hello";
+#define SENSOR_ADDR 0x44
+
+struct CTH832X_data {
+    float celcius;
+    float relative_humidity;
+};
+
+CTH832X_data get_temp(void)
+{
+    Wire.beginTransmission(SENSOR_ADDR);
+    Wire.write(0x24);       
+    Wire.write(0x00);       
+    int error = Wire.endTransmission();
+    
+    if (error != 0) {
+        Serial.println("Command sending failed！");
+        CTH832X_data temp_hum;
+        temp_hum.celcius = 0;
+        temp_hum.relative_humidity = 0;
+        return temp_hum;
+    }
+
+    delay(60);              
+
+    
+    Wire.requestFrom(SENSOR_ADDR, 6);
+    if (Wire.available() == 6) {
+        // Read temperature data
+        uint16_t temp_raw = (Wire.read() << 8) | Wire.read();
+        Wire.read();         
+        
+        // Read humidity data
+        uint16_t humi_raw = (Wire.read() << 8) | Wire.read();
+        Wire.read();          
+
+        CTH832X_data temp_hum;
+        temp_hum.celcius = -45.0 + 175.0 * (temp_raw / 65535.0);
+        temp_hum.relative_humidity = 100.0 * (humi_raw / 65535.0);
+
+
+        Serial.print("temperature: ");
+        Serial.print(temp_hum.celcius, 2);
+        Serial.print("°C \thumidity: ");
+        Serial.print(temp_hum.relative_humidity, 2);
+        Serial.println(" %RH");
+
+        return temp_hum;
+    } 
+    else {
+        Serial.println("Data read failed！");
+        CTH832X_data temp_hum;
+        temp_hum.celcius = 0;
+        temp_hum.relative_humidity = 0;
+        return temp_hum;
+    }
+}
 
 //post data to certain topic
-//TODO recieve data from queue that has sensor struct inside
 void mqtt_post(void *pvParameter)
 {
     while(1)
     {
-      client.publish(topic, "world");
-      Serial.println("send string world to client");
+      CTH832X_data data = get_temp();
+      char str[16];
+      sprintf(str, "%f", data.celcius);
+      printf("read out string: %s 	read out float: %f\n", str, data.celcius);
+
+      //client.publish(topic, str);
       vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
 }
