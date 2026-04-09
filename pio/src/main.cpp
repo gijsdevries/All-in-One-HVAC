@@ -11,6 +11,7 @@
 const char topic[] = "/hello";
 
 //post data to certain topic
+//TODO recieve data from queue that has sensor struct inside
 void mqtt_post(void *pvParameter)
 {
     while(1)
