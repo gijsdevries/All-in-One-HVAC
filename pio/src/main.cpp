@@ -7,78 +7,77 @@
 
 #include <Wire.h>
 
-struct CTH832X_data {
-    float celcius;
-    float relative_humidity;
+struct data_struct {    //  Struct for measurements
+    float temp;
+    float hum;
 };
 
-#define SENSOR_ADDR 0x44  
+#define SENSOR_ADDR 0x44    // SHT40 I2C address
+#define QUEUE_SIZE 5    // Size of data queue
+#define MEASUREMENT_INTERVAL 1000
 
-#define BLINK_GPIO (gpio_num_t)CONFIG_BLINK_GPIO
+// #define BLINK_GPIO (gpio_num_t)CONFIG_BLINK_GPIO
 
-void blink_task(void *pvParameter)
+QueueHandle_t dataQueue = NULL; //  Initialize dataQueue used for passing measurements to data uploader
+
+/*
+    SHT40Task
+    This function is used as a freeRTOS task, it measures temperature and relative 
+    humidity and adds these to the dataQueue
+*/
+void SHT40Task(void *parameter)
 {
-    gpio_pad_select_gpio(BLINK_GPIO);
-    gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
-
-    while(1)
+    while(true)
     {
-	/* Blink off (output low) */
-	gpio_set_level(BLINK_GPIO, 0);
-	vTaskDelay(1000 / portTICK_PERIOD_MS);
-	/* Blink on (output high) */
-	digitalWrite(BLINK_GPIO, !digitalRead(BLINK_GPIO));
-	vTaskDelay(1000 / portTICK_PERIOD_MS);
+        Wire.beginTransmission(SENSOR_ADDR);    //  Initializes I2C communication
+        Wire.write(0xFD);   //  Sends command for single high precision T & RH measurement
+
+        int error = Wire.endTransmission();
+        if (error != 0) {
+            Serial.println("Command sending failed！");
+            continue;
+        }
+
+        vTaskDelay(60 / portTICK_PERIOD_MS);             
+
+        
+        Wire.requestFrom(SENSOR_ADDR, 6);
+        if (Wire.available() == 6) {
+            // Read temperature data
+            uint16_t temp_raw = (Wire.read() << 8) | Wire.read();
+            Wire.read();         
+            
+            // Read humidity data
+            uint16_t hum_raw = (Wire.read() << 8) | Wire.read();
+            Wire.read();          
+            
+            data_struct data;
+
+            data.temp = -45.0 + 175.0 * (temp_raw / 65535.0);
+            data.hum = -6 + 125 * (hum_raw / 65535.0);
+            if (data.hum > 100.0) data.hum = 100.0;
+            else if (data.hum < 0.0) data.hum = 0.0;
+
+            xQueueSend(dataQueue, &data, portMAX_DELAY);
+            
+            vTaskDelay(MEASUREMENT_INTERVAL / portTICK_PERIOD_MS);
+        } 
+        else {
+            Serial.println("Data read failed！");
+            continue;
+        }
     }
 }
 
-CTH832X_data get_temp(void)
+void PrintTask(void *parameter)
 {
-    Wire.beginTransmission(SENSOR_ADDR);
-    Wire.write(0x24);       
-    Wire.write(0x00);       
-    int error = Wire.endTransmission();
-    
-    if (error != 0) {
-        Serial.println("Command sending failed！");
-        CTH832X_data temp_hum;
-        temp_hum.celcius = 0;
-        temp_hum.relative_humidity = 0;
-        return temp_hum;
-    }
-
-    delay(60);              
-
-    
-    Wire.requestFrom(SENSOR_ADDR, 6);
-    if (Wire.available() == 6) {
-        // Read temperature data
-        uint16_t temp_raw = (Wire.read() << 8) | Wire.read();
-        Wire.read();         
-        
-        // Read humidity data
-        uint16_t humi_raw = (Wire.read() << 8) | Wire.read();
-        Wire.read();          
-
-        CTH832X_data temp_hum;
-        temp_hum.celcius = -45.0 + 175.0 * (temp_raw / 65535.0);
-        temp_hum.relative_humidity = 100.0 * (humi_raw / 65535.0);
-
-
-        Serial.print("temperature: ");
-        Serial.print(temp_hum.celcius, 2);
-        Serial.print("°C \thumidity: ");
-        Serial.print(temp_hum.relative_humidity, 2);
-        Serial.println(" %RH");
-
-        return temp_hum;
-    } 
-    else {
-        Serial.println("Data read failed！");
-        CTH832X_data temp_hum;
-        temp_hum.celcius = 0;
-        temp_hum.relative_humidity = 0;
-        return temp_hum;
+    while(true)
+    {
+        data_struct data;
+        if (xQueueReceive(dataQueue, &data, portMAX_DELAY))
+        {
+            Serial.printf("From queue: Temp: %.2f | Hum: %.2f\n", data.temp, data.hum);
+        }
     }
 }
 
@@ -87,12 +86,35 @@ void setup() {
 
     Wire.begin();
 
-    xTaskCreate(&blink_task, "blink_task", configMINIMAL_STACK_SIZE, NULL, 5, NULL);
-    pinMode(BLINK_GPIO, OUTPUT);
+    dataQueue = xQueueCreate(QUEUE_SIZE, sizeof(data_struct));
+    if (dataQueue == NULL)
+    {
+        Serial.println("Failed to create dataQueue.");
+        while(true);
+    }    
+
+    xTaskCreatePinnedToCore(
+        SHT40Task,
+        "SHT40Task",
+        3000,
+        NULL,
+        1,
+        NULL,
+        1
+    );
+
+    xTaskCreatePinnedToCore(
+        PrintTask,
+        "PrintTask",
+        3000,
+        NULL,
+        1,
+        NULL,
+        1
+    );
 }
 
-void loop() {
-    CTH832X_data test = get_temp();    
-
-    delay(500);   
+void loop() 
+{
+    vTaskDelay(pdMS_TO_TICKS(1000));
 }
