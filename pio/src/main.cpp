@@ -10,20 +10,39 @@
 
 const char topic[] = "/hello";
 
-void setup() {
+void mqtt_post(void *pvParameter)
+{
+    while(1)
+    {
+      client.publish(topic, "world");
+      Serial.println("send string world to client");
+      vTaskDelay(1000 / portTICK_PERIOD_MS);
+    }
+}
+
+void mqtt_connection(void *pvParameter)
+{
     const char ssid[] = "Energielab";
     const char pass[] = "Energie0238";
 
-    Serial.begin(115200);
     connect_wifi(ssid, pass);
     connect_mqtt();
     client.subscribe(topic);
+
+    xTaskCreate(&mqtt_post, "mqtt_post", 8192, NULL, 5, NULL);
+
+    while(1)
+    {
+      client.loop();
+      vTaskDelay(10 / portTICK_PERIOD_MS);
+    }
+}
+
+void setup() {
+    Serial.begin(115200);
+    xTaskCreate(&mqtt_connection, "mqtt_connection", 8192, NULL, 5, NULL);
 }
 
 void loop() {
-    client.loop();
-
-    client.publish(topic, "world");
-    Serial.println("send string world to client");
     delay(1000);
 }
