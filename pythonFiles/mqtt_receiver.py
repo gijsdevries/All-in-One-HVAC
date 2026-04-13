@@ -23,15 +23,16 @@ elif os.path.isdir(dirPathPi):
     SERIAL_PORT_OCTO = "/dev/ttyACM0" 
     SERIAL_PORT_TEC = "/dev/ttyUSB0"
 
-BAUD_RATE = 115200 
+BAUD_RATE_OCTO = 115200 
+BAUD_RATE_TEC = 9600 
 
 #SETTINGS
 MQTT_HOST = "192.168.1.116" # IP of your HA/Mosquitto Broker
 
 # Initialize Serial
 try:
-    ser_octo = serial.Serial(SERIAL_PORT_OCTO, BAUD_RATE, timeout=1)
-    ser_tec = serial.Serial(SERIAL_PORT_TEC, BAUD_RATE, timeout=1)
+    ser_octo = serial.Serial(SERIAL_PORT_OCTO, BAUD_RATE_OCTO, timeout=1)
+    ser_tec = serial.Serial(SERIAL_PORT_TEC, BAUD_RATE_TEC, timeout=1)
 except Exception as e:
     print(f"Serial Error: {e}")
     exit()
