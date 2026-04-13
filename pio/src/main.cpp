@@ -4,6 +4,7 @@
 #include <driver/gpio.h>
 #include "sdkconfig.h"
 #include <Arduino.h>
+#include <MQTT.h>
 
 #include <Wire.h>
 
@@ -31,6 +32,33 @@ void SHT40Task(void *parameter)
     {
         Wire.beginTransmission(SENSOR_ADDR);    //  Initializes I2C communication
         Wire.write(0xFD);   //  Sends command for single high precision T & RH measurement
+#include <mqtt.h>
+
+const char topic[] = "/hello";
+
+//post data to certain topic
+//TODO recieve data from queue that has sensor struct inside
+void mqtt_post(void *pvParameter)
+{
+    while(1)
+    {
+      client.publish(topic, "world");
+      Serial.println("send string world to client");
+      vTaskDelay(1000 / portTICK_PERIOD_MS);
+    }
+}
+
+//start wifi and mqtt connection and keep it alive
+void mqtt_connection(void *pvParameter)
+{
+    const char ssid[] = "Energielab";
+    const char pass[] = "Energie0238";
+
+    connect_wifi(ssid, pass);
+    connect_mqtt();
+    client.subscribe(topic);
+
+    xTaskCreate(&mqtt_post, "mqtt_post", 8192, NULL, 5, NULL);
 
         int error = Wire.endTransmission();
         if (error != 0) {
@@ -78,6 +106,8 @@ void PrintTask(void *parameter)
         {
             Serial.printf("From queue: Temp: %.2f | Hum: %.2f\n", data.temp, data.hum);
         }
+      client.loop(); //this function should be called frequently to keep connection with broker alive
+      vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }
 
@@ -117,4 +147,9 @@ void setup() {
 void loop() 
 {
     vTaskDelay(pdMS_TO_TICKS(1000));
+    xTaskCreate(&mqtt_connection, "mqtt_connection", 8192, NULL, 5, NULL);
+}
+
+void loop() {
+    delay(1000);
 }

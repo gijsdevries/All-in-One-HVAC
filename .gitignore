@@ -86,3 +86,5 @@ pio/.piolibdeps
 pio/.clang_complete
 pio/.gcc-flags.json
 pio/.pio
+
+pio/src/secrets.h
