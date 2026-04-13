@@ -1,11 +1,13 @@
 #include <mqtt.h>
+#include <secrets.h>
 
 WiFiClient net;
 MQTTClient client;
 
-void connect_wifi(const char* ssid, const char* password)
+//connect to wifi
+void connect_wifi()
 {
-    WiFi.begin(ssid, password);
+    WiFi.begin(secret_ssid, secret_password);
     Serial.print("checking wifi...");
 
     while (WiFi.status() != WL_CONNECTED)
@@ -18,11 +20,12 @@ void connect_wifi(const char* ssid, const char* password)
     return;
 }
 
+//connect to mqtt broker
 void connect_mqtt()
 {
     client.begin("192.168.1.116", net);
 
-    while (!client.connect("sensordev", "pi_mqtt", "M0squ!tt0"))
+    while (!client.connect("sensordev", secret_username_broker, secret_password_broker))
     {
       Serial.print(".");
       delay(1000);
