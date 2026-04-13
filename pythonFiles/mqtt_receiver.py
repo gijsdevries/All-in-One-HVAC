@@ -99,9 +99,9 @@ def on_message(eta_client, userdata, msg):
         msg.payload = msg.payload.decode('utf-8')
 
         if msg.payload == 'False':
-            serial_buffer = "M0 room_air_valve D0\r" 
+            serial_buffer = "M0 outdoor_air_valve D0\r" 
         else:
-            serial_buffer = "M0 room_air_valve D100\r" 
+            serial_buffer = "M0 outdoor_air_valve D100\r" 
 
         ser_octo.write(serial_buffer.encode('utf-8'))
         print(Fore.BLUE + "SENT OCTO: " + serial_buffer)
@@ -121,7 +121,7 @@ def on_message(eta_client, userdata, msg):
             time.sleep(0.1)
 
             #close valve
-            ser_octo.write(b"M0 room_air_valve D0\r")
+            ser_octo.write(b"M0 outdoor_air_valve D0\r")
             time.sleep(0.1)
 
             #turn peltier off
