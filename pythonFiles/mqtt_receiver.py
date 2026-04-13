@@ -2,7 +2,9 @@ from colorama import Fore, Back, Style
 import serial
 import paho.mqtt.client as mqtt
 import os
+import time
 
+#user file
 import secrets
 
 #TOPICS
@@ -11,6 +13,7 @@ ODA_TOPIC = "hoom/control/oda"
 TEC_TOPIC = "hoom/control/tec"
 PELTIER_TOPIC = "hoom/control/peltier"
 ENABLE_PI = "hoom/control/enable_pi"
+VALVE_TOPIC = "hoom/control/valve"
 
 #COM_PORTS
 dirPathGijs = "/home/gijs"
@@ -44,6 +47,7 @@ def on_connect(eta_client, userdata, flags, rc):
         (ETA_TOPIC, 0),
         (TEC_TOPIC, 0),
         (PELTIER_TOPIC, 0),
+        (VALVE_TOPIC, 0),
         (ENABLE_PI, 0),
     ]
     eta_client.subscribe(topics)
@@ -91,8 +95,41 @@ def on_message(eta_client, userdata, msg):
         line = ser_tec.readline()
         print(Fore.LIGHTGREEN_EX + "TEC : " + line.decode().strip())
 
+    elif msg.topic == VALVE_TOPIC:
+        msg.payload = msg.payload.decode('utf-8')
+
+        if msg.payload == 'False':
+            serial_buffer = "M0 room_air_valve D0\r" 
+        else:
+            serial_buffer = "M0 room_air_valve D100\r" 
+
+        ser_octo.write(serial_buffer.encode('utf-8'))
+        print(Fore.BLUE + "SENT OCTO: " + serial_buffer)
+
+        line = ser_octo.readline()
+        print(Fore.CYAN + "OCTO: " + line.decode().strip())
+
     elif msg.topic == ENABLE_PI:
         if msg.payload.decode('utf-8') == "False":
+
+            #turn eta off
+            ser_octo.write(b"M0 eta_fan D0\r")
+            time.sleep(0.1)
+
+            #turn oda off
+            ser_octo.write(b"M0 oda_fan D0\r")
+            time.sleep(0.1)
+
+            #close valve
+            ser_octo.write(b"M0 room_air_valve D0\r")
+            time.sleep(0.1)
+
+            #turn peltier off
+            ser_tec.write(b"set 1 0.0\r")
+            time.sleep(0.1)
+            ser_tec.write(b"set 2 0\r")
+            time.sleep(0.1)
+
             print(Back.RED + Fore.WHITE + "PI forwarder shutting down..." + Style.RESET_ALL)
             quit()
 
