@@ -63,5 +63,3 @@ void SHT40Task(void *parameter)
 	}
     }
 }
-
-

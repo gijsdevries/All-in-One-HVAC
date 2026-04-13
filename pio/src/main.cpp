@@ -40,7 +40,7 @@ void mqtt_post(void *parameter)
 
 	    gpio_set_level(BLINK_GPIO, 1);
 	    vTaskDelay(100 / portTICK_PERIOD_MS);
-	    digitalWrite(BLINK_GPIO, 0);
+	    gpio_set_level(BLINK_GPIO, 0);
 	}
     }
 }
@@ -61,8 +61,10 @@ void mqtt_connection(void *pvParameter)
 }
 
 void setup() {
+    //init serial monitor
     Serial.begin(115200);
 
+    //init led
     gpio_pad_select_gpio(BLINK_GPIO);
     gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
 
