@@ -8,7 +8,8 @@
 #include <Wire.h>
 #include <mqtt.h>
 
-const char topic[] = "/hello";
+const char topic_temp[] = "/sensor_kit/1/temp";
+const char topic_hum[] = "/sensor_kit/1/hum";
 
 #define SENSOR_ADDR 0x44    // SHT40 I2C address
 #define QUEUE_SIZE 5    // Size of data queue
@@ -78,16 +79,19 @@ void SHT40Task(void *parameter)
 void mqtt_post(void *parameter)
 {
   data_struct data;
+  char buffer[6];
 
   while(true)
   {
     if (xQueueReceive(dataQueue, &data, portMAX_DELAY))
     {
-      char buffer[50];
       snprintf(buffer, sizeof(buffer), "%.2f", data.temp);
+      client.publish(topic_temp, buffer);
 
-      client.publish(topic, buffer);
-      printf("From queue: Temp: %.2f | Hum: %.2f\n", data.temp, data.hum);
+      snprintf(buffer, sizeof(buffer), "%.2f", data.hum);
+      client.publish(topic_hum, buffer);
+
+      printf("Send over mqtt: Temp: %.2f | Hum: %.2f\n", data.temp, data.hum);
       vTaskDelay(pdMS_TO_TICKS(1000));
     }
   }
@@ -101,7 +105,9 @@ void mqtt_connection(void *pvParameter)
 
   connect_wifi(ssid, pass);
   connect_mqtt();
-  client.subscribe(topic);
+
+  client.subscribe(topic_temp);
+  client.subscribe(topic_hum);
 
   xTaskCreate(mqtt_post, "mqtt_post", 8192, NULL, 5, NULL);
 
