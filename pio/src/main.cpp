@@ -4,32 +4,75 @@
 #include <driver/gpio.h>
 #include "sdkconfig.h"
 #include <Arduino.h>
+#include <MQTT.h>
+#include <Wire.h>
 
-#define BLINK_GPIO (gpio_num_t)CONFIG_BLINK_GPIO
+#include <mqtt.h>
+#include <sensor.h>
 
-void blink_task(void *pvParameter)
+#define BLINK_GPIO (gpio_num_t)2
+
+// task that sends mqtt data to home assistent
+void mqtt_post(void *parameter)
 {
-    gpio_pad_select_gpio(BLINK_GPIO);
-    gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
+    //topics
+    const char topic_temp[] = "/sensor_kit/1/temp";
+    const char topic_hum[] = "/sensor_kit/1/hum";
 
-    while(1)
+    client.subscribe(topic_temp);
+    client.subscribe(topic_hum);
+
+    data_struct data; //recieve the sensor data
+    char buffer[6]; //used for snprintf
+
+    while(true)
     {
-	/* Blink off (output low) */
-	gpio_set_level(BLINK_GPIO, 0);
-	vTaskDelay(1000 / portTICK_PERIOD_MS);
-	/* Blink on (output high) */
-	digitalWrite(BLINK_GPIO, !digitalRead(BLINK_GPIO));
-	vTaskDelay(1000 / portTICK_PERIOD_MS);
+	if (xQueueReceive(dataQueue, &data, portMAX_DELAY))
+	{
+	    //convert the float value to a string so it can be send over mqtt
+	    snprintf(buffer, sizeof(buffer), "%.2f", data.temp);
+	    client.publish(topic_temp, buffer);
+
+	    snprintf(buffer, sizeof(buffer), "%.2f", data.hum);
+	    client.publish(topic_hum, buffer);
+
+	    printf("Send over mqtt: Temp: %.2f | Hum: %.2f\n", data.temp, data.hum);
+
+	    gpio_set_level(BLINK_GPIO, 1);
+	    vTaskDelay(100 / portTICK_PERIOD_MS);
+	    gpio_set_level(BLINK_GPIO, 0);
+	}
+    }
+}
+
+//start wifi and mqtt connection and keep it alive
+void mqtt_connection(void *pvParameter)
+{
+    connect_wifi();
+    connect_mqtt();
+
+    xTaskCreate(mqtt_post, "mqtt_post", 8192, NULL, 5, NULL);
+
+    while (1)
+    {
+	client.loop(); //this function should be called frequently to keep connection with broker alive
+	vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
 
 void setup() {
+    //init serial monitor
     Serial.begin(115200);
-    xTaskCreate(&blink_task, "blink_task", configMINIMAL_STACK_SIZE, NULL, 5, NULL);
-    pinMode(BLINK_GPIO, OUTPUT);
+
+    //init led
+    gpio_pad_select_gpio(BLINK_GPIO);
+    gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
+
+    xTaskCreate(SHT40Task, "SHT40Task", 8192, NULL, 5, NULL);
+    xTaskCreate(&mqtt_connection, "mqtt_connection", 8192, NULL, 5, NULL);
 }
 
-void loop() {
-    Serial.println("Hello!");
-    delay(1000);
+void loop() 
+{
+    vTaskDelay(pdMS_TO_TICKS(1000));
 }
