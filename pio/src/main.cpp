@@ -29,6 +29,7 @@ void mqtt_post(void *parameter)
     {
 	if (xQueueReceive(dataQueue, &data, portMAX_DELAY))
 	{
+	    //convert the float value to a string so it can be send over mqtt
 	    snprintf(buffer, sizeof(buffer), "%.2f", data.temp);
 	    client.publish(topic_temp, buffer);
 
