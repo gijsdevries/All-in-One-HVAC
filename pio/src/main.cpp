@@ -6,19 +6,18 @@
 #include <Arduino.h>
 #include <MQTT.h>
 #include <Wire.h>
+
 #include <mqtt.h>
+#include <sensor.h>
 
 #define SENSOR_ADDR 0x44    // SHT40 I2C address
-#define QUEUE_SIZE 5    // Size of data queue
+#define QUEUE_SIZE 2    // Size of data queue
 #define MEASUREMENT_INTERVAL 1000
 
-QueueHandle_t dataQueue = NULL; //  Initialize dataQueue used for passing measurements to data uploader
 
-struct data_struct //  Struct for measurements
-{
-    float temp;
-    float hum;
-};
+#define BLINK_GPIO (gpio_num_t)2
+
+QueueHandle_t dataQueue = NULL; //  Initialize dataQueue used for passing measurements to data uploader
 
 /*
    SHT40Task
@@ -106,6 +105,10 @@ void mqtt_post(void *parameter)
 	    client.publish(topic_hum, buffer);
 
 	    printf("Send over mqtt: Temp: %.2f | Hum: %.2f\n", data.temp, data.hum);
+
+	    gpio_set_level(BLINK_GPIO, 1);
+	    vTaskDelay(100 / portTICK_PERIOD_MS);
+	    digitalWrite(BLINK_GPIO, 0);
 	}
     }
 }
@@ -121,12 +124,15 @@ void mqtt_connection(void *pvParameter)
     while (1)
     {
 	client.loop(); //this function should be called frequently to keep connection with broker alive
-	vTaskDelay(10 / portTICK_PERIOD_MS);
+	vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
 
 void setup() {
     Serial.begin(115200);
+
+    gpio_pad_select_gpio(BLINK_GPIO);
+    gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
 
     xTaskCreate(SHT40Task, "SHT40Task", 8192, NULL, 5, NULL);
     xTaskCreate(&mqtt_connection, "mqtt_connection", 8192, NULL, 5, NULL);
