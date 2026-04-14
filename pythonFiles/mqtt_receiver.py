@@ -97,12 +97,8 @@ def on_message(eta_client, userdata, msg):
         print(Fore.LIGHTGREEN_EX + "TEC : " + line.decode().strip())
 
     elif msg.topic == VALVE_TOPIC:
-        msg.payload = msg.payload.decode('utf-8')
-
-        if msg.payload == 'False':
-            serial_buffer = "M0 outdoor_air_valve D0\r" 
-        else:
-            serial_buffer = "M0 outdoor_air_valve D100\r" 
+        msg.payload = int(msg.payload)
+        serial_buffer = f"M0 outdoor_air_valve D{msg.payload}\r" 
 
         ser_octo.write(serial_buffer.encode('utf-8'))
         print(Fore.BLUE + "SENT OCTO: " + serial_buffer)
