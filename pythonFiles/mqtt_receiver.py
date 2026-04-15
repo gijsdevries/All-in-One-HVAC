@@ -7,6 +7,9 @@ import time
 #user file
 import secrets
 
+highPowerOn = False # Variable that checks if hp is on. by default is should be off
+highPowerAmp = 6.0 # Amp range to switch from lp to hp or vice versa
+
 #TOPICS
 ETA_TOPIC = "hoom/control/eta"
 ODA_TOPIC = "hoom/control/oda"
@@ -56,6 +59,7 @@ def on_connect(eta_client, userdata, flags, rc):
     eta_client.subscribe(topics)
 
 def on_message(eta_client, userdata, msg):
+    global highPowerOn
 
     if msg.topic == ETA_TOPIC:
         msg.payload = int(msg.payload)
@@ -76,6 +80,7 @@ def on_message(eta_client, userdata, msg):
         print(Fore.CYAN + "OCTO: " + line.decode().strip())
 
     elif msg.topic == TEC_TOPIC:
+
         msg.payload = msg.payload.decode('utf-8')
 
         if msg.payload == 'False':
@@ -91,6 +96,51 @@ def on_message(eta_client, userdata, msg):
 
     elif msg.topic == PELTIER_TOPIC:
         msg.payload = float(msg.payload)
+
+        # Check if the setpoint exceeds the amperage ranges
+        if msg.payload > highPowerAmp or msg.payload < -highPowerAmp:
+            # If hp is off
+            if highPowerOn == False:
+                highPowerOn = True
+
+                # Turn hp on
+                serial_buffer = f"set 2 0\r" 
+                ser_tec.write(serial_buffer.encode('utf-8'))
+                print(Fore.GREEN + "SENT TEC: " + serial_buffer)
+                time.sleep(1)
+
+                serial_buffer = f"relay_hp\r" 
+                ser_tec.write(serial_buffer.encode('utf-8'))
+                print(Fore.GREEN + "SENT TEC: " + serial_buffer)
+                time.sleep(1)
+
+                serial_buffer = f"set 2 1\r" 
+                ser_tec.write(serial_buffer.encode('utf-8'))
+                print(Fore.GREEN + "SENT TEC: " + serial_buffer)
+                time.sleep(1)
+
+        else:
+            # Check if hp is on
+            if highPowerOn == True:
+                highPowerOn = False
+
+                # Turn hp off
+                serial_buffer = f"set 2 0\r" 
+                ser_tec.write(serial_buffer.encode('utf-8'))
+                print(Fore.GREEN + "SENT TEC: " + serial_buffer)
+                time.sleep(1)
+
+                serial_buffer = f"relay_lp\r" 
+                ser_tec.write(serial_buffer.encode('utf-8'))
+                print(Fore.GREEN + "SENT TEC: " + serial_buffer)
+                time.sleep(1)
+
+                serial_buffer = f"set 2 1\r" 
+                ser_tec.write(serial_buffer.encode('utf-8'))
+                print(Fore.GREEN + "SENT TEC: " + serial_buffer)
+                time.sleep(1)
+
+
         serial_buffer = f"set 1 {msg.payload}\r" 
         ser_tec.write(serial_buffer.encode('utf-8'))
         print(Fore.GREEN + "SENT TEC: " + serial_buffer)
