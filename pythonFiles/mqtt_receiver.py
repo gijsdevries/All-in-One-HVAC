@@ -7,6 +7,8 @@ import time
 #user file
 import secrets
 
+highPowerOn = False
+
 #TOPICS
 ETA_TOPIC = "hoom/control/eta"
 ODA_TOPIC = "hoom/control/oda"
@@ -74,6 +76,7 @@ def on_message(eta_client, userdata, msg):
         print(Fore.CYAN + "OCTO: " + line.decode().strip())
 
     elif msg.topic == TEC_TOPIC:
+
         msg.payload = msg.payload.decode('utf-8')
 
         if msg.payload == 'False':
