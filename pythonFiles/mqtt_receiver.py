@@ -14,6 +14,7 @@ TEC_TOPIC = "hoom/control/tec"
 PELTIER_TOPIC = "hoom/control/peltier"
 ENABLE_PI = "hoom/control/enable_pi"
 VALVE_TOPIC = "hoom/control/valve"
+CALIBRATE_VALVE_TOPIC = "hoom/control/valve"
 
 #COM_PORTS
 dirPathGijs = "/home/gijs"
@@ -49,6 +50,7 @@ def on_connect(eta_client, userdata, flags, rc):
         (TEC_TOPIC, 0),
         (PELTIER_TOPIC, 0),
         (VALVE_TOPIC, 0),
+        (CALIBRATE_VALVE_TOPIC, 0),
         (ENABLE_PI, 0),
     ]
     eta_client.subscribe(topics)
@@ -105,6 +107,17 @@ def on_message(eta_client, userdata, msg):
 
         line = ser_octo.readline()
         print(Fore.CYAN + "OCTO: " + line.decode().strip())
+
+    elif msg.topic == CALIBRATE_VALVE_TOPIC:
+        if (msg.payload == "Home valve"):
+            serial_buffer = "M0 home_valves"
+
+            ser_octo.write(serial_buffer.encode('utf-8'))
+            print(Fore.BLUE + "SENT OCTO: " + serial_buffer)
+
+            line = ser_octo.readline()
+            print(Fore.CYAN + "OCTO: " + line.decode().strip())
+
 
     elif msg.topic == ENABLE_PI:
         if msg.payload.decode('utf-8') == "False":
