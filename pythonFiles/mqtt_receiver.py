@@ -36,6 +36,8 @@ BAUD_RATE_TEC = 9600
 #SETTINGS
 MQTT_HOST = "192.168.1.116" # IP of your HA/Mosquitto Broker
 
+POWER_CIRCUT_SWITCH_DELAY = 2 # Delay between commands when switching power circuits
+
 # Initialize Serial
 try:
     ser_octo = serial.Serial(SERIAL_PORT_OCTO, BAUD_RATE_OCTO, timeout=1)
@@ -107,17 +109,17 @@ def on_message(eta_client, userdata, msg):
                 serial_buffer = f"set 2 0\r" 
                 ser_tec.write(serial_buffer.encode('utf-8'))
                 print(Fore.GREEN + "SENT TEC: " + serial_buffer)
-                time.sleep(1)
+                time.sleep(POWER_CIRCUT_SWITCH_DELAY)
 
                 serial_buffer = f"relay_hp\r" 
                 ser_tec.write(serial_buffer.encode('utf-8'))
                 print(Fore.GREEN + "SENT TEC: " + serial_buffer)
-                time.sleep(1)
+                time.sleep(POWER_CIRCUT_SWITCH_DELAY)
 
                 serial_buffer = f"set 2 1\r" 
                 ser_tec.write(serial_buffer.encode('utf-8'))
                 print(Fore.GREEN + "SENT TEC: " + serial_buffer)
-                time.sleep(1)
+                time.sleep(POWER_CIRCUT_SWITCH_DELAY)
 
         else:
             # Check if hp is on
@@ -128,17 +130,17 @@ def on_message(eta_client, userdata, msg):
                 serial_buffer = f"set 2 0\r" 
                 ser_tec.write(serial_buffer.encode('utf-8'))
                 print(Fore.GREEN + "SENT TEC: " + serial_buffer)
-                time.sleep(1)
+                time.sleep(POWER_CIRCUT_SWITCH_DELAY)
 
                 serial_buffer = f"relay_lp\r" 
                 ser_tec.write(serial_buffer.encode('utf-8'))
                 print(Fore.GREEN + "SENT TEC: " + serial_buffer)
-                time.sleep(1)
+                time.sleep(POWER_CIRCUT_SWITCH_DELAY)
 
                 serial_buffer = f"set 2 1\r" 
                 ser_tec.write(serial_buffer.encode('utf-8'))
                 print(Fore.GREEN + "SENT TEC: " + serial_buffer)
-                time.sleep(1)
+                time.sleep(POWER_CIRCUT_SWITCH_DELAY)
 
 
         serial_buffer = f"set 1 {msg.payload}\r" 
@@ -198,7 +200,7 @@ def on_message(eta_client, userdata, msg):
 client = mqtt.Client()
 client.username_pw_set(secrets.USERNAME, secrets.PASSWORD)
 client.on_connect = on_connect
-client.on_message = on_message
+client.on_message = on_message 
 
 client.connect(MQTT_HOST, 1883, 60)
 client.loop_forever()
