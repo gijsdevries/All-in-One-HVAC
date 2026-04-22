@@ -1,4 +1,3 @@
-
 .vscode
 sdkconfig
 sdkconfig.old
@@ -74,12 +73,13 @@ vcpkg_installed/
 Testing/
 .cache/
 
-# secrets file
-pythonFiles/secrets.py
+# pythonFiles
 
-# python cache
+pythonFiles/secrets.py
 pythonFiles/venv
 pythonFiles/__pycache__/
+
+# Platformio
 
 pio/.pioenvs
 pio/.piolibdeps
@@ -88,3 +88,47 @@ pio/.gcc-flags.json
 pio/.pio
 
 pio/src/secrets.h
+
+# Kicad
+
+# For PCBs designed using KiCad: https://www.kicad.org/
+# Format documentation: https://kicad.org/help/file-formats/
+
+# Temporary files
+testo_power/*.000
+testo_power/*.bak
+testo_power/*.bck
+testo_power/*.kicad_pcb-bak
+testo_power/*.kicad_sch-bak
+testo_power/*-backups
+testo_power/*-cache*
+testo_power/*-bak
+testo_power/*-bak*
+
+testo_power/_autosave-*
+testo_power/\#auto_saved_files\#
+testo_power/*.tmp
+testo_power/*-save.pro
+testo_power/*-save.kicad_pcb
+testo_power/fp-info-cache
+testo_power/~*.lck
+
+# Netlist files (exported from Eeschema)
+testo_power/*.net
+
+# Autorouter files (exported from Pcbnew)
+testo_power/*.dsn
+testo_power/*.ses
+
+# Exported BOM files
+testo_power/*.xml
+testo_power/*.csv
+
+# Archived Backups (KiCad 6.0)
+testo_power/**/*-backups/*.zip
+
+# Local git-based history (KiCad 9.0+)
+testo_power/.history
+
+# Local project settings
+testo_power/*.kicad_prl
