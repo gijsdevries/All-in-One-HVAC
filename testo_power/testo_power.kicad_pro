@@ -45,8 +45,8 @@
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
-        "silk_text_size_h": 1.0,
-        "silk_text_size_v": 1.0,
+        "silk_text_size_h": 0.5,
+        "silk_text_size_v": 0.5,
         "silk_text_thickness": 0.1,
         "silk_text_upright": false,
         "zones": {
@@ -237,7 +237,7 @@
       "internal_id": "",
       "mfg": "",
       "mpn": "",
-      "sch_revision": ""
+      "sch_revision": "V1"
     },
     "layer_pairs": [],
     "layer_presets": [],
@@ -686,7 +686,7 @@
         "uuid": "7d8517b7-4e53-4e94-8436-66e52bec9654"
       }
     ],
-    "used_designators": "D1,#PWR1-4,R1,J1-3,Q1-2",
+    "used_designators": "#PWR1-5,D1-2,J1-3,R1-2,Q1",
     "variants": []
   },
   "sheets": [
