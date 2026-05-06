@@ -839,12 +839,9 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Simulation_SPICE:PMOS"
-			(pin_numbers
-				(hide yes)
-			)
+		(symbol "Transistor_FET:FQP27P06"
 			(pin_names
-				(offset 0)
+				(hide yes)
 			)
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -852,7 +849,7 @@
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "Q"
-				(at 5.08 1.27 0)
+				(at 5.08 1.905 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -862,8 +859,8 @@
 					(justify left)
 				)
 			)
-			(property "Value" "PMOS"
-				(at 5.08 -1.27 0)
+			(property "Value" "FQP27P06"
+				(at 5.08 0 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -873,8 +870,21 @@
 					(justify left)
 				)
 			)
-			(property "Footprint" ""
-				(at 5.08 2.54 0)
+			(property "Footprint" "Package_TO_SOT_THT:TO-220-3_Vertical"
+				(at 5.08 -1.905 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+						(italic yes)
+					)
+					(justify left)
+				)
+			)
+			(property "Datasheet" "https://www.onsemi.com/pub/Collateral/FQP27P06-D.PDF"
+				(at 5.08 -3.81 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -882,20 +892,10 @@
 					(font
 						(size 1.27 1.27)
 					)
+					(justify left)
 				)
 			)
-			(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#cha_MOSFETs"
-				(at 0 -12.7 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "P-MOSFET transistor, drain/source/gate"
+			(property "Description" "-27A Id, -60V Vds, QFET P-Channel MOSFET, TO-220"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -906,40 +906,7 @@
 					)
 				)
 			)
-			(property "Sim.Device" "PMOS"
-				(at 0 -17.145 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Sim.Type" "VDMOS"
-				(at 0 -19.05 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Sim.Pins" "1=D 2=G 3=S"
-				(at 0 -15.24 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "transistor PMOS P-MOS P-MOSFET simulation"
+			(property "ki_keywords" "QFET P-Channel MOSFET"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -950,7 +917,18 @@
 					)
 				)
 			)
-			(symbol "PMOS_0_1"
+			(property "ki_fp_filters" "TO?220*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "FQP27P06_0_1"
 				(polyline
 					(pts
 						(xy 0.254 1.905) (xy 0.254 -1.905)
@@ -1117,11 +1095,11 @@
 					)
 				)
 			)
-			(symbol "PMOS_1_1"
-				(pin passive line
-					(at 2.54 5.08 270)
+			(symbol "FQP27P06_1_1"
+				(pin input line
+					(at -5.08 0 0)
 					(length 2.54)
-					(name "D"
+					(name "G"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1136,10 +1114,10 @@
 						)
 					)
 				)
-				(pin input line
-					(at -5.08 0 0)
+				(pin passive line
+					(at 2.54 5.08 270)
 					(length 2.54)
-					(name "G"
+					(name "D"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1292,8 +1270,8 @@
 		)
 	)
 	(rectangle
-		(start 94.488 48.514)
-		(end 124.46 61.468)
+		(start 97.028 48.514)
+		(end 127 61.468)
 		(stroke
 			(width 0)
 			(type default)
@@ -1339,7 +1317,7 @@
 	)
 	(text "Output"
 		(exclude_from_sim no)
-		(at 121.158 47.498 0)
+		(at 123.698 47.498 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1367,7 +1345,7 @@
 		(at 83.82 50.8)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "c548793e-6080-4484-b160-2543e8194a78")
+		(uuid "69b0f2db-3f15-45fe-9f20-9c0352073970")
 	)
 	(no_connect
 		(at 60.96 62.23)
@@ -1397,7 +1375,7 @@
 	)
 	(wire
 		(pts
-			(xy 83.82 50.8) (xy 97.79 50.8)
+			(xy 83.82 50.8) (xy 100.33 50.8)
 		)
 		(stroke
 			(width 0)
@@ -1434,6 +1412,16 @@
 			(type default)
 		)
 		(uuid "2cdb7c0c-a076-44a0-932f-074b7d481cba")
+	)
+	(wire
+		(pts
+			(xy 83.82 48.26) (xy 83.82 50.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4a6ee645-196f-46f0-aa6f-e3ded20619f2")
 	)
 	(wire
 		(pts
@@ -1487,7 +1475,7 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 54.61) (xy 97.79 53.34)
+			(xy 100.33 54.61) (xy 100.33 53.34)
 		)
 		(stroke
 			(width 0)
@@ -1514,6 +1502,78 @@
 			(type default)
 		)
 		(uuid "e1fe7a2e-3156-4542-9a32-3737362e5f3f")
+	)
+	(global_label "V_BAT"
+		(shape input)
+		(at 83.82 64.77 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "750ee6e9-a4d1-48c9-ae15-1e2121eefbfa")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 92.1876 64.77 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
+	(global_label "V_OUT"
+		(shape input)
+		(at 83.82 48.26 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "868487f5-4907-4f5d-bd94-3dd16204adb3")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 92.49 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
+	(global_label "V_USB"
+		(shape input)
+		(at 69.85 60.96 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c4243057-3927-41a2-98a8-5e097fbb85a6")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 78.7014 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -1549,7 +1609,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 68.072 69.85 90)
 			(hide yes)
 			(show_name no)
@@ -1609,7 +1669,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "66392e5b-b9ac-4db5-bcba-08d2cee59121")
-		(property "Reference" "#PWR04"
+		(property "Reference" "#PWR03"
 			(at 83.82 80.01 0)
 			(hide yes)
 			(show_name no)
@@ -1669,7 +1729,7 @@
 		(instances
 			(project "testo_power"
 				(path "/7d8517b7-4e53-4e94-8436-66e52bec9654"
-					(reference "#PWR04")
+					(reference "#PWR03")
 					(unit 1)
 				)
 			)
@@ -1677,7 +1737,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x02_Socket")
-		(at 102.87 50.8 0)
+		(at 105.41 50.8 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -1688,7 +1748,7 @@
 		(fields_autoplaced yes)
 		(uuid "67c0e33d-cb56-4272-9beb-a03075557d69")
 		(property "Reference" "J3"
-			(at 104.14 50.7999 0)
+			(at 106.68 50.7999 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1699,7 +1759,7 @@
 			)
 		)
 		(property "Value" "Conn_01x02_Socket"
-			(at 104.14 53.3399 0)
+			(at 106.68 53.3399 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1709,8 +1769,8 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
-			(at 102.87 50.8 0)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
+			(at 105.41 50.8 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1721,7 +1781,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 102.87 50.8 0)
+			(at 105.41 50.8 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1732,7 +1792,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 102.87 50.8 0)
+			(at 105.41 50.8 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1847,7 +1907,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "876dd699-3c93-490f-a351-d3b5e0e9a2e2")
-		(property "Reference" "#PWR03"
+		(property "Reference" "#PWR02"
 			(at 69.85 80.01 0)
 			(hide yes)
 			(show_name no)
@@ -1907,7 +1967,7 @@
 		(instances
 			(project "testo_power"
 				(path "/7d8517b7-4e53-4e94-8436-66e52bec9654"
-					(reference "#PWR03")
+					(reference "#PWR02")
 					(unit 1)
 				)
 			)
@@ -1945,7 +2005,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical"
 			(at 55.88 62.23 0)
 			(hide yes)
 			(show_name no)
@@ -2039,7 +2099,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_Molex:Molex_KK-254_AE-6410-02A_1x02_P2.54mm_Vertical"
 			(at 88.9 69.85 0)
 			(hide yes)
 			(show_name no)
@@ -2088,6 +2148,94 @@
 		)
 	)
 	(symbol
+		(lib_id "Transistor_FET:FQP27P06")
+		(at 81.28 57.15 0)
+		(mirror x)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "dc6cefb9-be64-42a1-a696-924eedb136e7")
+		(property "Reference" "Q2"
+			(at 86.614 58.42 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "FQP27P06"
+			(at 86.614 55.88 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_THT:TO-220-3_Vertical"
+			(at 86.36 55.245 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(italic yes)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" "https://www.onsemi.com/pub/Collateral/FQP27P06-D.PDF"
+			(at 86.36 53.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Description" "-27A Id, -60V Vds, QFET P-Channel MOSFET, TO-220"
+			(at 81.28 57.15 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "da3afe57-b7cb-4226-961c-0fcde6d75744")
+		)
+		(pin "3"
+			(uuid "9781de2b-741b-41a9-a5fa-ad5f26d11c3d")
+		)
+		(pin "1"
+			(uuid "9dc93218-6608-4391-8671-928ab068811d")
+		)
+		(instances
+			(project "testo_power"
+				(path "/7d8517b7-4e53-4e94-8436-66e52bec9654"
+					(reference "Q2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:D_Schottky")
 		(at 74.93 50.8 180)
 		(unit 1)
@@ -2119,7 +2267,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Diode_THT:D_5W_P10.16mm_Horizontal"
 			(at 74.93 50.8 0)
 			(hide yes)
 			(show_name no)
@@ -2168,126 +2316,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Simulation_SPICE:PMOS")
-		(at 81.28 57.15 0)
-		(mirror x)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "f54bf2a6-091e-49e0-8c77-60df0f787404")
-		(property "Reference" "Q1"
-			(at 87.63 58.4201 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "PMOS"
-			(at 87.63 55.8801 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" ""
-			(at 86.36 59.69 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#cha_MOSFETs"
-			(at 81.28 44.45 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "P-MOSFET transistor, drain/source/gate"
-			(at 81.28 57.15 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Device" "PMOS"
-			(at 81.28 40.005 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Type" "VDMOS"
-			(at 81.28 38.1 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Pins" "1=D 2=G 3=S"
-			(at 81.28 41.91 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "50d3b535-8407-44bf-829e-478a06057abd")
-		)
-		(pin "2"
-			(uuid "28315365-eca6-49fc-a791-bc66be020835")
-		)
-		(pin "3"
-			(uuid "fceff5d0-aa0f-43c5-8934-7afbf7c37c43")
-		)
-		(instances
-			(project "testo_power"
-				(path "/7d8517b7-4e53-4e94-8436-66e52bec9654"
-					(reference "Q1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
-		(at 97.79 54.61 0)
+		(at 100.33 54.61 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -2297,8 +2327,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "fdfa06cd-6d72-4a80-bd1f-4110510e0a72")
-		(property "Reference" "#PWR05"
-			(at 97.79 60.96 0)
+		(property "Reference" "#PWR04"
+			(at 100.33 60.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2309,7 +2339,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 97.79 59.69 0)
+			(at 100.33 59.69 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2319,7 +2349,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 97.79 54.61 0)
+			(at 100.33 54.61 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2330,7 +2360,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 97.79 54.61 0)
+			(at 100.33 54.61 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2341,7 +2371,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 97.79 54.61 0)
+			(at 100.33 54.61 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2357,7 +2387,7 @@
 		(instances
 			(project "testo_power"
 				(path "/7d8517b7-4e53-4e94-8436-66e52bec9654"
-					(reference "#PWR05")
+					(reference "#PWR04")
 					(unit 1)
 				)
 			)
