@@ -97,7 +97,6 @@
 		)
 		(capping no)
 		(filling no)
-		(zone_defaults)
 		(pcbplotparams
 			(layerselection 0x00000000_00000000_55555555_5755f5ff)
 			(plot_on_all_layers_selection 0x00000000_00000000_00000000_00000000)
@@ -3019,6 +3018,19 @@
 		)
 		(layer "Edge.Cuts")
 		(uuid "fa370a6e-14a7-4a82-b0dc-d6a04e003867")
+	)
+	(gr_text "Power Source Selector"
+		(at 109 116 90)
+		(layer "F.SilkS")
+		(uuid "05d263a0-4349-40bc-9025-0ee497fbfdd4")
+		(effects
+			(font
+				(size 0.3 0.3)
+				(thickness 0.075)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
 	)
 	(gr_text "USB PWR LED"
 		(at 104.25 128 90)
