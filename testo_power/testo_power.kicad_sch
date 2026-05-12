@@ -3477,8 +3477,8 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
+		(in_bom no)
+		(on_board no)
 		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
@@ -4499,7 +4499,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_Molex:Molex_CLIK-Mate_502382-0270_1x02-1MP_P1.25mm_Vertical"
+		(property "Footprint" "SamacSys_Parts:0532610271"
 			(at 29.21 50.8 0)
 			(hide yes)
 			(show_name no)
@@ -4532,7 +4532,7 @@
 				)
 			)
 		)
-		(property "JLC Part#" "C27543"
+		(property "JLC Part#" "C225111"
 			(at 29.21 50.8 0)
 			(hide yes)
 			(show_name no)
