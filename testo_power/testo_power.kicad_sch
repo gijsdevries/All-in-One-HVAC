@@ -395,29 +395,27 @@
 			(on_board yes)
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "J"
-				(at 0 16.51 0)
+			(property "Reference" "J3"
+				(at 0 17.78 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(justify bottom)
 				)
 			)
 			(property "Value" "USB_C_Receptacle_PowerOnly_6P"
-				(at 0 13.97 0)
+				(at 0 15.24 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(justify bottom)
 				)
 			)
-			(property "Footprint" ""
+			(property "Footprint" "Connector_USB:USB_C_Receptacle_HCTL_HC-TYPE-C-16P-01A"
 				(at 3.81 2.54 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -428,7 +426,7 @@
 					)
 				)
 			)
-			(property "Datasheet" "https://www.usb.org/sites/default/files/documents/usb_type-c.zip"
+			(property "Datasheet" "https://jlc-prod-smt.oss-eu-central-1.aliyuncs.com/smtDataManualFile/8550723676065714176-C165948.pdf?response-content-disposition=attachment%3B%20filename%3DC165948.pdf%3B%20filename%2A%3DUTF-8%27%27C165948.pdf&x-oss-date=20260511T083134Z&x-oss-expires=1800&x-oss-security-token=CAISgAN1q6Ft5B2yfSjIr5n%2FHdXlr%2BtO1LLdb0zApjEBXvtEnY6cqTz2IHhMdHJsAOodtv0%2FmmhT6PkclqRLcbhpcmfjV%2BZHzLB8qbtOpVBI4J7b16cNrbH4M4H6aXeirtuwDsz9SNTCALjPD3nPii50x5bjaDymRCbLGJaViJlhHLN1Ow6jdmhpCctxLAlvo9NgFxm3D%2Fu2NQPwiWf9FVdhvhEG6Vly8qOi2MaRmFy8yFTx0b0SvJ%2BjYMrmPctoN9JnSdC5mfdzau3a1TJ84gRD0a5wkaVA1zbDs5bfISEIuUzebreLqY03dV4mOvdqIcMe8qigz88fk%2FfIioH6xyxKOexoSCnFTOiiupCcQLPyao9jLu6iayqViY7QaIOTqQohZmkAMwVOasAsI3Ngh4zF97Qt0cVNkXO9gWfLI8DtuMleWkptUeY6EnSgc5lCkRRYwGs1287ugXlSQzo890KPDAEovaKCnZ2ZSfh7Y4sNknI6i%2Bfc2Se2MIkIBld%2Fc6KWD5sagAFnvnZnReQqfJ1zgAf5%2FnOhI00SK5OV30YAAS0aFW3pcTD0gfjc5Ra2r%2BiHyaMiuN2jevcqqTyfMgT01o4uTvi7lMeVL7x3Y%2F%2FzJ3TvjaXVvQukvuhkb00KPgJ9wyxLAwcbMi7JnKRScv12N4yjSh6LLYJo4ssAAt6afr%2FgwHgyaSAA&x-oss-signature-version=OSS4-HMAC-SHA256&x-oss-credential=STS.NZJVoQB4ocp6mjqB1TRthrK7K%2F20260511%2Feu-central-1%2Foss%2Faliyun_v4_request&x-oss-signature=23d3a922bba3227dd11c38177615aad4797fc7a4eb8f8aed045cba96257a0873"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -440,6 +438,17 @@
 				)
 			)
 			(property "Description" "USB Power-Only 6P Type-C Receptacle connector"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "JLC Part#" "C165948"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -785,44 +794,6 @@
 						)
 					)
 					(number "B5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 15.24 7.62 180)
-					(length 5.08)
-					(hide yes)
-					(name "VBUS"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "B9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -17.78 90)
-					(length 5.08)
-					(hide yes)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "B12"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -4190,12 +4161,6 @@
 		)
 		(pin "SH"
 			(uuid "5f4b2454-c088-47a4-a8ea-24ecb615003f")
-		)
-		(pin "B12"
-			(uuid "1471da33-ead4-482c-9a59-65d37a4053f8")
-		)
-		(pin "B9"
-			(uuid "addd8abf-bfee-4acf-9b28-4a4b50102672")
 		)
 		(pin "A5"
 			(uuid "d7b2e97f-f311-4807-a50d-07578f22cf84")
