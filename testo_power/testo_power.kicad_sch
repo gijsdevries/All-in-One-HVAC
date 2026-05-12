@@ -2010,6 +2010,16 @@
 		)
 		(uuid "590d28c8-a606-493e-8576-0b14d73554a5")
 	)
+	(text "~200mA charge current"
+		(exclude_from_sim no)
+		(at 25.146 116.84 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "8d8d7675-a1f4-41ce-a327-f5b623c85e51")
+	)
 	(text "Power selector"
 		(exclude_from_sim no)
 		(at 60.198 14.986 0)
