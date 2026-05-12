@@ -589,6 +589,12 @@
         },
         {
           "group_by": false,
+          "label": "JLC Part#",
+          "name": "JLC Part#",
+          "show": true
+        },
+        {
+          "group_by": false,
           "label": "Qty",
           "name": "${QUANTITY}",
           "show": true
@@ -649,9 +655,45 @@
         },
         {
           "group_by": false,
-          "label": "JLC Part#",
-          "name": "JLC Part#",
-          "show": true
+          "label": "Manufacturer_Part_Number",
+          "name": "Manufacturer_Part_Number",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Mouser Part Number",
+          "name": "Mouser Part Number",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Mouser Price/Stock",
+          "name": "Mouser Price/Stock",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Arrow Price/Stock",
+          "name": "Arrow Price/Stock",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Arrow Part Number",
+          "name": "Arrow Part Number",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Height",
+          "name": "Height",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Manufacturer_Name",
+          "name": "Manufacturer_Name",
+          "show": false
         }
       ],
       "filter_string": "",
@@ -659,7 +701,7 @@
       "include_excluded_from_bom": true,
       "name": "",
       "sort_asc": true,
-      "sort_field": "Reference"
+      "sort_field": "${ITEM_NUMBER}"
     },
     "bus_aliases": {},
     "connection_grid_size": 50.0,
@@ -710,7 +752,7 @@
         "uuid": "7d8517b7-4e53-4e94-8436-66e52bec9654"
       }
     ],
-    "used_designators": "C1-2,R5-6,#PWR9-12,U1",
+    "used_designators": "C1-4,S1,U1-2,D1-2,#PWR1-14,L1,J1-3,Q1,R1-5",
     "variants": []
   },
   "sheets": [
