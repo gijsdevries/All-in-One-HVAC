@@ -2041,7 +2041,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_Molex:Molex_CLIK-Mate_502382-0270_1x02-1MP_P1.25mm_Vertical"
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
 			(at 176.53 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -2052,7 +2052,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.molex.com/content/dam/molex/molex-dot-com/products/automated/en-us/salesdrawingpdf/532/53261/532614002_sd.pdf?inline"
+		(property "Datasheet" ""
 			(at 176.53 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -2074,7 +2074,7 @@
 				)
 			)
 		)
-		(property "JLC Part#" "C27543"
+		(property "JLC Part#" ""
 			(at 176.53 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -2675,7 +2675,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_Molex:Molex_KK-254_AE-6410-02A_1x02_P2.54mm_Vertical"
+		(property "Footprint" "Connector_Molex:Molex_CLIK-Mate_502382-0270_1x02-1MP_P1.25mm_Vertical"
 			(at 176.53 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -2686,7 +2686,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://www.molex.com/content/dam/molex/molex-dot-com/products/automated/en-us/salesdrawingpdf/532/53261/532614002_sd.pdf?inline"
 			(at 176.53 76.2 0)
 			(hide yes)
 			(show_name no)
