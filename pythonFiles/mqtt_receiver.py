@@ -18,11 +18,12 @@ PELTIER_TOPIC = "hoom/control/peltier"
 ENABLE_PI = "hoom/control/enable_pi"
 VALVE_TOPIC = "hoom/control/valve"
 CALIBRATE_VALVE_TOPIC = "hoom/control/calibrate_valve"
+WATER_PUMP_TOPIC = "hoom/control/water_pump"
 
-#COM_PORTS
 dirPathGijs = "/home/gijs"
 dirPathPi = "/home/hvacpi"
-    
+
+#COM_PORTS
 if os.path.isdir(dirPathGijs):
     SERIAL_PORT_OCTO = "/dev/ttyS4" 
     SERIAL_PORT_TEC = "/dev/ttyS4"
@@ -56,6 +57,7 @@ def on_connect(eta_client, userdata, flags, rc):
         (PELTIER_TOPIC, 0),
         (VALVE_TOPIC, 0),
         (CALIBRATE_VALVE_TOPIC, 0),
+        (WATER_PUMP_TOPIC, 0),
         (ENABLE_PI, 0),
     ]
     eta_client.subscribe(topics)
@@ -69,17 +71,11 @@ def on_message(eta_client, userdata, msg):
         ser_octo.write(serial_buffer.encode('utf-8'))
         print(Fore.BLUE + "SENT OCTO: " + serial_buffer)
 
-        line = ser_octo.readline()
-        print(Fore.CYAN + "OCTO: " + line.decode().strip())
-
     elif msg.topic == ODA_TOPIC:
         msg.payload = int(msg.payload)
         serial_buffer = f"M0 oda_fan D{msg.payload}\r" 
         ser_octo.write(serial_buffer.encode('utf-8'))
         print(Fore.BLUE + "SENT OCTO: " + serial_buffer)
-
-        line = ser_octo.readline()
-        print(Fore.CYAN + "OCTO: " + line.decode().strip())
 
     elif msg.topic == TEC_TOPIC:
 
@@ -92,9 +88,6 @@ def on_message(eta_client, userdata, msg):
 
         ser_tec.write(serial_buffer.encode('utf-8'))
         print(Fore.GREEN + "SENT TEC: " + serial_buffer)
-
-        line = ser_tec.readline()
-        print(Fore.LIGHTGREEN_EX + "TEC : " + line.decode().strip())
 
     elif msg.topic == PELTIER_TOPIC:
         msg.payload = float(msg.payload)
@@ -147,9 +140,6 @@ def on_message(eta_client, userdata, msg):
         ser_tec.write(serial_buffer.encode('utf-8'))
         print(Fore.GREEN + "SENT TEC: " + serial_buffer)
 
-        line = ser_tec.readline()
-        print(Fore.LIGHTGREEN_EX + "TEC : " + line.decode().strip())
-
     elif msg.topic == VALVE_TOPIC:
         msg.payload = int(msg.payload)
         serial_buffer = f"M0 outdoor_air_valve D{msg.payload}\r" 
@@ -157,18 +147,19 @@ def on_message(eta_client, userdata, msg):
         ser_octo.write(serial_buffer.encode('utf-8'))
         print(Fore.BLUE + "SENT OCTO: " + serial_buffer)
 
-        line = ser_octo.readline()
-        print(Fore.CYAN + "OCTO: " + line.decode().strip())
+    elif msg.topic == WATER_PUMP_TOPIC:
+        payload = msg.payload.decode("utf-8").strip()
+        data = [part.strip() for part in payload.split(";")]
+        serial_buffer = f"M0 water_pump D{int(data[0])} S{float(data[1])}\r"
+
+        ser_octo.write(serial_buffer.encode('utf-8'))
+        print(Fore.BLUE + "SENT OCTO: " + serial_buffer)
 
     elif msg.topic == CALIBRATE_VALVE_TOPIC:
         serial_buffer = "M0 home_valves\r"
 
         ser_octo.write(serial_buffer.encode('utf-8'))
         print(Fore.BLUE + "SENT OCTO: " + serial_buffer)
-
-        line = ser_octo.readline()
-        print(Fore.CYAN + "OCTO: " + line.decode().strip())
-
 
     elif msg.topic == ENABLE_PI:
         if msg.payload.decode('utf-8') == "False":
