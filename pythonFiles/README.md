@@ -23,6 +23,7 @@ Je zou nu alle python files moeten kunnen runnen met `python3 <naam python besta
 Om de pi MQTT data te laten ontvangen op het moment dat deze aanstaat kan je de volgende commandos toevoegen aan het bestand `~/.bashrc`
 
 `source /home/hvacpi/Documents/venv/bin/activate`
+
 `python3 /home/hvacpi/Documents/All-in-One-HVAC/pythonFiles/MQTT_starter.py`
 
 Check even of de directiories overeenkomen met je eigen.
