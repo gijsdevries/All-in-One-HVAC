@@ -18,7 +18,7 @@ def on_message(client, userdata, msg):
 
     if payload == "True":
         print("Starting the program...")
-        subprocess.Popen(["python3", "/home/hvacpi/Documents/sensoren_klimaatkamer/pythonFiles/mqtt_receiver.py"])
+        subprocess.Popen(["python3", "/home/hvacpi/Documents/All-in-One-HVAC/pythonFiles/mqtt_receiver.py"])
 
 # Setup the client
 client = mqtt.Client()
