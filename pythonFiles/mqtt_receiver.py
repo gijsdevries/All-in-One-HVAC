@@ -20,16 +20,19 @@ VALVE_TOPIC = "hoom/control/valve"
 CALIBRATE_VALVE_TOPIC = "hoom/control/calibrate_valve"
 WATER_PUMP_TOPIC = "hoom/control/water_pump"
 
-dirPathGijs = "/home/gijs"
 dirPathPi = "/home/hvacpi"
 
-#COM_PORTS
-if os.path.isdir(dirPathGijs):
-    SERIAL_PORT_OCTO = "/dev/ttyS4" 
-    SERIAL_PORT_TEC = "/dev/ttyS4"
-elif os.path.isdir(dirPathPi):
+# COM_PORTS
+
+# Configure these variables yourself. run the following command to see available COM ports
+# ls -l /dev/serial/by-id/
+
+if os.path.isdir(dirPathPi):
     SERIAL_PORT_OCTO = "/dev/ttyACM0" 
     SERIAL_PORT_TEC = "/dev/ttyUSB0"
+else:
+    SERIAL_PORT_OCTO = "/dev/ttyS4" 
+    SERIAL_PORT_TEC = "/dev/ttyS4"
 
 BAUD_RATE_OCTO = 115200 
 BAUD_RATE_TEC = 9600 
@@ -50,6 +53,7 @@ except Exception as e:
 def on_connect(eta_client, userdata, flags, rc):
     print(f"Connected to MQTT with result code {rc}")
     
+    #TODO set topics in a struct and subscribe to all topics in the struct
     topics = [
         (ODA_TOPIC, 0),
         (ETA_TOPIC, 0),
@@ -62,6 +66,7 @@ def on_connect(eta_client, userdata, flags, rc):
     ]
     eta_client.subscribe(topics)
 
+#TODO this code is very repetitive. write a function to reduce lines
 def on_message(eta_client, userdata, msg):
     global highPowerOn
 
