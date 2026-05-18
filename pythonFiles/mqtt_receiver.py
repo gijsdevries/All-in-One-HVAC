@@ -4,7 +4,7 @@ import paho.mqtt.client as mqtt
 import os
 import time
 
-#user file
+# User file, make this file yourself
 import secrets
 
 highPowerOn = False # Variable that checks if hp is on. by default is should be off
