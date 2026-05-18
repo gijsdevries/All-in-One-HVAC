@@ -8,15 +8,17 @@ Voor het maken van de virtual environment run je het volgende commando
 `python3 -m venv /path/to/new/virtual/environment`
 
 Je kan de environment activeren met het commando `source venv/bin/activate` (als de map van de environment venv heet)
-deactivaten kan met `deactivate`
+Deactivaten kan met `deactivate`
 
 Om het python script te kunnen draaien moeten er een paar dependencies aan de venv toegevoegd worden. Activeer de venv met het bovenstaande commando en installeer de dependencies:
 
 `python3 -m pip install pyserial`
+  
 `python3 -m pip install colorama`
+  
 `python3 -m pip install paho-mqtt`
   
-Je zou nu alle python files moeten kunnen runnen met `python3 MQTT_starter.py`
+Je zou nu alle python files moeten kunnen runnen met `python3 <naam python bestand>`
 
 Om de pi MQTT data te laten ontvangen op het moment dat deze aanstaat kan je de volgende commandos toevoegen aan het bestand `~/.bashrc`
 
