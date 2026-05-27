@@ -1,3 +1,7 @@
+**Installeren OS raspberry pi**
+
+Voor de aansturing
+
 **Installeren python omgeving op de pi**
   
 In deze map staan de python bestanden die op de raspberry pi draaien. De raspberry pi ontvangt de MQTT data van Home Assistent en stuurt het door met UART naar de HOOM unit.
