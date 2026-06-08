@@ -12,11 +12,7 @@ Deactivaten kan met `deactivate`
 
 Om het python script te kunnen draaien moeten er een paar dependencies aan de venv toegevoegd worden. Activeer de venv met het bovenstaande commando en installeer de dependencies:
 
-`python3 -m pip install pyserial`
-  
-`python3 -m pip install colorama`
-  
-`python3 -m pip install paho-mqtt`
+`pip3 install -r requirements.txt`
   
 Je zou nu alle python files moeten kunnen runnen met `python3 <naam python bestand>`
 
