@@ -4,7 +4,7 @@ import paho.mqtt.client as mqtt
 import os
 import time
 
-#user file
+# User file, make this file yourself
 import secrets
 
 highPowerOn = False # Variable that checks if hp is on. by default is should be off
@@ -20,16 +20,19 @@ VALVE_TOPIC = "hoom/control/valve"
 CALIBRATE_VALVE_TOPIC = "hoom/control/calibrate_valve"
 WATER_PUMP_TOPIC = "hoom/control/water_pump"
 
-dirPathGijs = "/home/gijs"
 dirPathPi = "/home/hvacpi"
 
-#COM_PORTS
-if os.path.isdir(dirPathGijs):
-    SERIAL_PORT_OCTO = "/dev/ttyS4" 
-    SERIAL_PORT_TEC = "/dev/ttyS4"
-elif os.path.isdir(dirPathPi):
+# COM_PORTS
+
+# Configure these variables yourself. run the following command in the CLI to see available COM ports
+# ls -l /dev/serial/by-id/
+
+if os.path.isdir(dirPathPi):
     SERIAL_PORT_OCTO = "/dev/ttyACM0" 
     SERIAL_PORT_TEC = "/dev/ttyUSB0"
+else:
+    SERIAL_PORT_OCTO = "/dev/ttyS4" 
+    SERIAL_PORT_TEC = "/dev/ttyS4"
 
 BAUD_RATE_OCTO = 115200 
 BAUD_RATE_TEC = 9600 
@@ -47,9 +50,13 @@ except Exception as e:
     print(f"Serial Error: {e}")
     exit()
 
+
 def on_connect(eta_client, userdata, flags, rc):
+    """
+    Code to be run after connectiong to MQTT broker, subscribes to the relevant topics.
+    """
     print(f"Connected to MQTT with result code {rc}")
-    
+
     topics = [
         (ODA_TOPIC, 0),
         (ETA_TOPIC, 0),
@@ -59,26 +66,31 @@ def on_connect(eta_client, userdata, flags, rc):
         (CALIBRATE_VALVE_TOPIC, 0),
         (WATER_PUMP_TOPIC, 0),
         (ENABLE_PI, 0),
-    ]
+        ]
     eta_client.subscribe(topics)
 
 def on_message(eta_client, userdata, msg):
+    """
+    Code to be run after receiving a MQTT message, sends required UART command to protype.
+    """
     global highPowerOn
 
+    # Sets value for ETA fan
     if msg.topic == ETA_TOPIC:
         msg.payload = int(msg.payload)
         serial_buffer = f"M0 eta_fan D{msg.payload}\r" 
         ser_octo.write(serial_buffer.encode('utf-8'))
         print(Fore.BLUE + "SENT OCTO: " + serial_buffer)
 
+    # Sets value for ODA fan
     elif msg.topic == ODA_TOPIC:
         msg.payload = int(msg.payload)
         serial_buffer = f"M0 oda_fan D{msg.payload}\r" 
         ser_octo.write(serial_buffer.encode('utf-8'))
         print(Fore.BLUE + "SENT OCTO: " + serial_buffer)
 
+    # Enables or disables TEC controller
     elif msg.topic == TEC_TOPIC:
-
         msg.payload = msg.payload.decode('utf-8')
 
         if msg.payload == 'False':
@@ -89,6 +101,7 @@ def on_message(eta_client, userdata, msg):
         ser_tec.write(serial_buffer.encode('utf-8'))
         print(Fore.GREEN + "SENT TEC: " + serial_buffer)
 
+    # Sets value for peltiers
     elif msg.topic == PELTIER_TOPIC:
         msg.payload = float(msg.payload)
 
@@ -140,6 +153,7 @@ def on_message(eta_client, userdata, msg):
         ser_tec.write(serial_buffer.encode('utf-8'))
         print(Fore.GREEN + "SENT TEC: " + serial_buffer)
 
+    # Sets value for outdoor valve
     elif msg.topic == VALVE_TOPIC:
         msg.payload = int(msg.payload)
         serial_buffer = f"M0 outdoor_air_valve D{msg.payload}\r" 
@@ -147,6 +161,7 @@ def on_message(eta_client, userdata, msg):
         ser_octo.write(serial_buffer.encode('utf-8'))
         print(Fore.BLUE + "SENT OCTO: " + serial_buffer)
 
+    # Activates water pump
     elif msg.topic == WATER_PUMP_TOPIC:
         payload = msg.payload.decode("utf-8").strip()
         data = [part.strip() for part in payload.split(";")]
@@ -155,12 +170,14 @@ def on_message(eta_client, userdata, msg):
         ser_octo.write(serial_buffer.encode('utf-8'))
         print(Fore.BLUE + "SENT OCTO: " + serial_buffer)
 
+    # Calibrates Outdoor valve
     elif msg.topic == CALIBRATE_VALVE_TOPIC:
         serial_buffer = "M0 home_valves\r"
 
         ser_octo.write(serial_buffer.encode('utf-8'))
         print(Fore.BLUE + "SENT OCTO: " + serial_buffer)
 
+    # Disables Pi forwarder script
     elif msg.topic == ENABLE_PI:
         if msg.payload.decode('utf-8') == "False":
 
@@ -187,7 +204,7 @@ def on_message(eta_client, userdata, msg):
 
     print(Style.RESET_ALL)
 
-
+# Create MQTT client
 client = mqtt.Client()
 client.username_pw_set(secrets.USERNAME, secrets.PASSWORD)
 client.on_connect = on_connect
