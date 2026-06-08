@@ -1,9 +1,5 @@
 ***All-in-One-HVAC***
 
-**pio**  
-In deze folder staat een project voor een sensor kit die op een esp32 gedraaid kan worden. Uiteindelijk hebben wij er voor gekozen om testo sensoren te gebruiken. Er is weinig nuttigs in deze map de vinden.
-
-  
 **pythonFiles**  
 In deze folder staan alle python bestand die wij gebruiken.  
   
