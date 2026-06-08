@@ -1,6 +1,6 @@
 # All-in-One-HVAC
 
-**pythonFiles**  
+## pythonFiles
 In deze folder staan alle python bestand die wij gebruiken.  
   
 [pythonFiles/MQTT_starter.py](https://github.com/gijsdevries/All-in-One-HVAC/blob/main/pythonFiles/MQTT_starter.py) als je dit script runt kan je ervoor zorgen dat de pi gaat luisteren naar MQTT data die ontvangen wordt van Home Assistent  
@@ -8,6 +8,8 @@ In deze folder staan alle python bestand die wij gebruiken.
 
 Zorg ervoor dat je zelf een secrets.py maakt waar je wachtwoorden etc in zet. Dit bestand staat al in de .gitignore
 
+Daarbij staat er in deze folder ook een install guide om de juiste python omgeving op te zetten.
+
   
-**testo_power**  
+## testo_power
 In deze folder staat het kicad bestand voor de PCB die wij hebben gemaakt. De schematic is in KiCad v10.0 gemaakt. De schematic is op dit [forum](https://electronics.stackexchange.com/questions/418090/advice-for-this-p-channel-mosfet-power-source-selector) gebasseerd.    
