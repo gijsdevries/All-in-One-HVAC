@@ -8,11 +8,17 @@ MQTT_HOST = "192.168.1.116"
 MQTT_PORT = 1883
 
 def on_connect(eta_client, userdata, flags, rc):
+    """
+    Code to be run after connectiong to MQTT broker, subscribes to the relevant topic.
+    """
     print(f"Connected to MQTT with result code {rc}")
     
     eta_client.subscribe("hoom/control/enable_pi")
 
 def on_message(client, userdata, msg):
+    """
+    Code to be run after receiving a MQTT message, starts mqtt_receiver program.
+    """
     payload = msg.payload.decode("utf-8")
     print(f"Received message: {payload} on topic: {msg.topic}")
 
