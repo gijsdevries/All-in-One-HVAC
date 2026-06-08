@@ -33,3 +33,5 @@ source /home/hvacpi/Documents/venv/bin/activate                                 
 python3 /home/hvacpi/Documents/All-in-One-HVAC/pythonFiles/MQTT_starter.py      # Start the python script
 ```
 
+De bestanden zullen nog niet gelijk werken. Dit komt omdat je eerst zelf wat waardes moet invullen bij bepaalde variabelen. Lees de code even rustig door om te kijken waar dat moet.
+
