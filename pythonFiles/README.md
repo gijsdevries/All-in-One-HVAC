@@ -1,8 +1,8 @@
-**Installeren OS raspberry pi**
+## Installeren OS raspberry pi
 
 Voor de aansturing gebruiken wij een raspberry pi 3. We hebben een SD kaart geflasht met Raspberry Pi Imager met Raspberry PI OS. Zorg ervoor dat je tijdens het installeren ook wifi van het energielab erop zet.
 
-**Installeren python omgeving op de pi**
+## Installeren python omgeving op de pi
   
 In deze map staan de python bestanden die op de raspberry pi draaien. De raspberry pi ontvangt de MQTT data van Home Assistent en stuurt het door met UART naar de HOOM unit.
   
