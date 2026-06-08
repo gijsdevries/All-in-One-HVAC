@@ -1,6 +1,6 @@
 **Installeren OS raspberry pi**
 
-Voor de aansturing gebruiken wij een raspberry pi 3. We hebben een SD kaart geflasht met Raspberry Pi Imager met OS XXXXX. Zorg ervoor dat je tijdens het installeren ook wifi van het energielab erop zet.
+Voor de aansturing gebruiken wij een raspberry pi 3. We hebben een SD kaart geflasht met Raspberry Pi Imager met Raspberry PI OS. Zorg ervoor dat je tijdens het installeren ook wifi van het energielab erop zet.
 
 **Installeren python omgeving op de pi**
   
