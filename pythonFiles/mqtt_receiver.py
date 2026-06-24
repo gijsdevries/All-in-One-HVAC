@@ -22,10 +22,12 @@ WATER_PUMP_TOPIC = "hoom/control/water_pump"
 
 dirPathPi = "/home/hvacpi"
 
-# COM_PORTS
+"""
+COM_PORTS
 
-# Configure these variables yourself. run the following command in the CLI to see available COM ports
-# ls -l /dev/serial/by-id/
+Configure these variables yourself. run the following command in the CLI to see available COM ports
+ls -l /dev/serial/by-id/
+"""
 
 if os.path.isdir(dirPathPi):
     SERIAL_PORT_OCTO = "/dev/ttyACM0" 
@@ -37,7 +39,7 @@ else:
 BAUD_RATE_OCTO = 115200 
 BAUD_RATE_TEC = 9600 
 
-#SETTINGS
+# Configure these variables yourself
 MQTT_HOST = "192.168.1.116" # IP of your HA/Mosquitto Broker
 
 POWER_CIRCUT_SWITCH_DELAY = 2 # Delay between commands when switching power circuits

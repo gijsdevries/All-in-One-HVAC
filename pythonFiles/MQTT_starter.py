@@ -1,11 +1,13 @@
 import paho.mqtt.client as mqtt
 import subprocess
 
+# User file, make this file yourself
 import secrets
 
-# MQTT host
+# Configure these variables yourself
 MQTT_HOST = "192.168.1.116"
 MQTT_PORT = 1883
+pathToPythonfile = "/home/hvacpi/Documents/All-in-One-HVAC/pythonFiles/mqtt_receiver.py" 
 
 def on_connect(eta_client, userdata, flags, rc):
     """
@@ -24,7 +26,7 @@ def on_message(client, userdata, msg):
 
     if payload == "True":
         print("Starting the program...")
-        subprocess.Popen(["python3", "/home/hvacpi/Documents/All-in-One-HVAC/pythonFiles/mqtt_receiver.py"])
+        subprocess.Popen(["python3", pathToPythonfile])
 
 # Setup the client
 client = mqtt.Client()
